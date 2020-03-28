@@ -24,15 +24,15 @@ if [ -n "$BUILD32" ]; then
     echo "building 32bit exclusive packages"
     git clone --depth=1 https://github.com/instantos/32bit.git
     cd 32bit
+    /usr/share/instanttools/build.sh
 fi
 
 git clone --depth=1 https://github.com/instantos/extra.git
 cd extra
+/usr/share/instanttools/build.sh
 
-if [ -z "$1" ]; then
-    ./build.sh
-else
-    ./build.sh "$1"
+# combine 32bit only and packages with an unaltered build process
+if [ -n "$BUILD32" ]; then
+    mv ../32bit/build/*
+    ./build/
 fi
-
-./utils/postbuild.sh

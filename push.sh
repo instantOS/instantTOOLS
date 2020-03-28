@@ -1,13 +1,23 @@
 #!/bin/bash
 
-## script for pushing instantos repos to surge
+#####################################################
+## script to run after building instantos packages ##
+## uploads files to repo                           ##
+#####################################################
 
-cd ~/stuff
+cd ~/stuff/extra/build || exit 1
 
-if [ -e 32bit/build/index.html ]; then
-    cd 32bit/build
-    surge . instantos32.surge.sh
-elif [ -e extra/build/index.html ]; then
-    cd extra/build
+repo-add instant.db.tar.xz ./*.pkg.tar.xz
+[ -e index.html ] && rm index.html
+
+if ! apindex .; then
+    echo "error: apindex not found"
+    exit 1
+fi
+
+echo "uploading to surge"
+if [ -e ~/stuff/32bit ]; then
     surge . instantos.surge.sh
+else
+    surge . instantos32.surge.sh
 fi
