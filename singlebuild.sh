@@ -33,34 +33,43 @@ fi
 
 cd ~/workspace/extra
 git pull || exit
+cd ..
 
-if ! [ -e "$1/PKGBUILD" ]; then
-    echo "no $1 is not a package"
-    exit
+if [ -n "$IS32" ] && [ -e "32bit/$1/PKGBUILD" ]; then
+    echo "found 32 bit package"
+    FOUND32=true
+else
+    if ! [ -e "extra/$1/PKGBUILD" ]; then
+        echo "package $1 not found"
+        exit 1
+
+    fi
 fi
 
 # get a full copy of the repo working first
 if ! [ -e ~/stuff/extra/build ]; then
-    mkdir -p ~/stuff/extra/build
-    cd ~/stuff/extra/build
-    source ~/workspace/extra/utils/fetchrepo.sh
+    ibuild download
 fi
 
-cd ~/stuff/extra/build
+if [ -n "$FOUND32" ]; then
+    cd ~/workspace/32bit/$1
+else
+    cd ~/workspace/extra/$1
+fi
+
 if [ -e "$1".* ]; then
     echo "removing previous version"
     rm "$1".*
 fi
 
 mkdir -p ~/.cache/instantos/pkg
-cd ~/.cache/instantos/pkg
 cp ~/workspace/extra/$1/* .
+cd ~/.cache/instantos/pkg
+
 makepkg
 
 mv *.pkg.tar.xz ~/stuff/extra/build/"$1".pkg.tar.xz
 
 cd
 rm -rf .cache/instantos/pkg
-
-~/workspace/extra/utils/postbuild.sh
 echo "done building $1"
