@@ -24,4 +24,7 @@ fullrepo)
 push)
     runscript push
     ;;
+download)
+    runscript fetch
+    ;;
 esac
