@@ -9,7 +9,10 @@ source /usr/share/instanttools/utils.sh
 
 if ! pacman -Qi paperbash &>/dev/null; then
     echo "please install paperbash"
+    exit
 fi
+
+mkdir build
 
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then

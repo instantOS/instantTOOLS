@@ -27,4 +27,7 @@ push)
 download)
     runscript fetch
     ;;
+build)
+    runscript singlebuild "$2"
+    ;;
 esac
