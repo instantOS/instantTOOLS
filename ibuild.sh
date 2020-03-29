@@ -30,4 +30,7 @@ download)
 build)
     runscript singlebuild "$2"
     ;;
+*)
+    echo "usage: ibuild push/build/download"
+    ;;
 esac

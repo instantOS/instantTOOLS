@@ -16,8 +16,18 @@ mkdir build
 
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
-        if [ -e "$i"/ignore ] || [ -e ~/stuff/32bit/"$i" ]; then
+
+        # dont build unaltered one if there is a 32 bit version
+        if pwd | grep -q 'extra'; then
+            if [ -e ~/stuff/32bit/"$i" ]; then
+                touch /tmp/pkgignore
+                echo "ignoring package because its also in 32bit repo"
+            fi
+        fi
+
+        if [ -e "$i"/ignore ] || [ -e /tmp/pkgignore ]; then
             echo "package $i is ignored"
+            rm /tmp/pkgignore
             continue
         fi
         echo "building $i"
