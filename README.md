@@ -12,3 +12,6 @@ Push local changes to server
 
 Build a single package
 ```ibuild build packagename```
+
+Build full repo
+```ibuild fullrepo```
