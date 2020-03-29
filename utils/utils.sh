@@ -14,12 +14,12 @@ mkdir build
 
 # exit if failed build detected
 checkmake() {
-    remove already existing packages
+    # remove already existing packages
     if ls | grep -q '\.pkg.\.tar\..{1,3}'; then
         rm *.pkg.tar.*
     fi
 
-    if makepkg -C && ls *.pkg.tar.xz &>/dev/null; then
+    if makepkg -s -C && ls *.pkg.tar.xz &>/dev/null; then
         echo "build successful"
     else
         echo "build failed at $(pwd)"

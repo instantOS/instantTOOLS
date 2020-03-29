@@ -35,13 +35,16 @@ for i in ./*; do
     fi
 done
 
-# aur packages#
-for i in $(cat aurpackages); do
-    if grep -q ':' <<<"$i"; then
-        AURNAME=$(echo $i | grep -o '^[^:]*')
-        AURFINALNAME=$(echo $i | grep -o '[^:]*$')
-        aurbuild "$AURNAME" "$AURFINALNAME"
-    else
-        aurbuild "$i"
-    fi
-done
+# aur packages
+if [ -e aurpackages ]; then
+    echo "building aur packages"
+    for i in $(cat aurpackages); do
+        if grep -q ':' <<<"$i"; then
+            AURNAME=$(echo $i | grep -o '^[^:]*')
+            AURFINALNAME=$(echo $i | grep -o '[^:]*$')
+            aurbuild "$AURNAME" "$AURFINALNAME"
+        else
+            aurbuild "$i"
+        fi
+    done
+fi
