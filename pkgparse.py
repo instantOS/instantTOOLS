@@ -11,6 +11,12 @@ if not os.path.exists("PKGBUILD"):
 build = open("PKGBUILD").read().split('\n')
 collector = False
 
+if os.path.exists(os.environ["HOME"] + "/stuff/extra"):
+    aurpackages = open(os.environ["HOME"] + "/stuff/extra/aurpackages").read()
+
+if os.path.exists(os.environ["HOME"] + "/stuff/32bit"):
+    thirtytwo = open(os.environ["HOME"] + "/stuff/32bit/aurpackages").read()
+
 packages = []
 pacmancmd = ""
 
