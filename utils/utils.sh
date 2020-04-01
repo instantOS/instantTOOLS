@@ -105,7 +105,7 @@ aurinstall() {
 
     # force compatibility
     if [ -e ~/stuff/32bit ] || uname -m | grep -q '^i'; then
-        sed -i "s/^arch=/arch=('any')/g" PKGBUILD
+        sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
     fi
 
     checkmake

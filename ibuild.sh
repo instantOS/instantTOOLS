@@ -33,6 +33,9 @@ build)
 depend)
     runscript depend
     ;;
+parse)
+    runscript pkgparse "$2"
+    ;;
 aur)
     source /usr/share/instanttools/utils.sh
     aurinstall "$2" "$3"
