@@ -78,7 +78,6 @@ aurbuild() {
 
     rm -rf ~/.cache/tmpaur
     mkdir -p ~/.cache/tmpaur/
-    pushd .
     cd ~/.cache/tmpaur/
     git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
     cd $1
@@ -91,12 +90,9 @@ aurbuild() {
     fi
 
     checkmake || {
-        popd
         echo "checkmake failed"
         exit
     }
-
-    popd
 
     if ls ~/.cache/tmpaur/"$1"/*.pkg.tar.xz | wc -l | grep -q '1'; then
         mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/"$AURNAME".pkg.tar.xz

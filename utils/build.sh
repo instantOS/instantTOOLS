@@ -12,8 +12,7 @@ if ! pacman -Qi paperbash &>/dev/null; then
     exit
 fi
 
-mkdir build
-pushd .
+BUILDDIR="$(pwd)"
 if [ -e aurpackages ]; then
     # aur packages#
     for i in $(cat aurpackages); do
@@ -24,14 +23,13 @@ if [ -e aurpackages ]; then
         else
             aurbuild "$i"
         fi
-        popd
+        cd "$BUILDDIR"
     done
 fi
 
-popd
+cd "$BUILDDIR"
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
-
         # dont build unaltered one if there is a 32 bit version
         if pwd | grep -q 'extra'; then
             if [ -e ~/stuff/32bit/"$i" ]; then
