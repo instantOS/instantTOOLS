@@ -9,9 +9,6 @@ mac
 arc
 manjaro"
 
-[ -e build ] && rm -rf build
-mkdir build
-
 # exit if failed build detected
 checkmake() {
     # remove already existing packages
@@ -47,9 +44,9 @@ bashbuild() {
     checkmake
 
     if ls *.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv *.pkg.tar.xz ~/stuff/extra/build/"$1".pkg.tar.xz
+        mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz
     else
-        mv *.pkg.tar.xz ~/stuff/extra/build/
+        mv *.pkg.tar.xz ~/instantbuild/
     fi
     cd ..
 }
@@ -74,7 +71,7 @@ aurbuild() {
         AURNAME="$1"
     fi
 
-    if [ -e ~/stuff/extra/build/"$AURNAME".pkg.tar.xz ]; then
+    if [ -e ~/instantbuild/"$AURNAME".pkg.tar.xz ]; then
         echo "package $AURNAME already exists"
         return
     fi
@@ -102,9 +99,9 @@ aurbuild() {
     popd
 
     if ls ~/.cache/tmpaur/"$1"/*.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/stuff/extra/build/"$AURNAME".pkg.tar.xz
+        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/"$AURNAME".pkg.tar.xz
     else
-        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/stuff/extra/build/
+        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/
     fi
 
     cd ..
@@ -144,7 +141,7 @@ aurinstall() {
 linkbuild() {
     if ! $(pwd) | grep -q 'build'; then
         if [ -e build ]; then
-            cd build
+            cd ~/instantbuild
             TEMPBUILD="true"
         fi
     fi

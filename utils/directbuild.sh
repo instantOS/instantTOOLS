@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "building instantOS repository"
+mkdir ~/instantbuild
 
 # detect architecture
 UNAME="$(uname -m)"
@@ -20,7 +21,6 @@ echo "removing old ones"
 [ -e extra ] && rm -rf extra
 [ -e 32bit ] && rm -rf 32bit
 git clone --depth=1 https://github.com/instantos/extra.git
-mkdir extra/build
 
 if [ -n "$BUILD32" ]; then
     echo "building 32bit exclusive packages"
@@ -31,8 +31,3 @@ fi
 
 cd ~/stuff/extra
 /usr/share/instanttools/build.sh
-
-# combine 32bit only and packages with an unaltered build process
-if [ -n "$BUILD32" ]; then
-    mv ../32bit/build/* ./build/
-fi

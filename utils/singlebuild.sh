@@ -47,7 +47,7 @@ else
 fi
 
 # get a full copy of the repo working first
-if ! [ -e ~/stuff/extra/build ]; then
+if ! [ -e ~/instantbuild ]; then
     ibuild download
 fi
 
@@ -68,7 +68,7 @@ cd ~/.cache/instantos/pkg
 
 makepkg
 
-mv *.pkg.tar.xz ~/stuff/extra/build/"$1".pkg.tar.xz
+mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz
 
 cd
 rm -rf .cache/instantos/pkg
