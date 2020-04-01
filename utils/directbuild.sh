@@ -19,6 +19,7 @@ cd stuff
 echo "removing old ones"
 [ -e extra ] && rm -rf extra
 [ -e 32bit ] && rm -rf 32bit
+git clone --depth=1 https://github.com/instantos/extra.git
 
 if [ -n "$BUILD32" ]; then
     echo "building 32bit exclusive packages"
@@ -27,7 +28,6 @@ if [ -n "$BUILD32" ]; then
     /usr/share/instanttools/build.sh
 fi
 
-git clone --depth=1 https://github.com/instantos/extra.git
 cd extra
 /usr/share/instanttools/build.sh
 

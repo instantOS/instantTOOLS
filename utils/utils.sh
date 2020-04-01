@@ -14,7 +14,7 @@ mkdir build
 
 # exit if failed build detected
 checkmake() {
-    remove already existing packages
+    # remove already existing packages
     if ls | grep -q '\.pkg.\.tar\..{1,3}'; then
         rm *.pkg.tar.*
     fi
@@ -71,7 +71,10 @@ aurbuild() {
     git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
     cd $1
     if [ -n "$2" ]; then
+        AURNAME="$2"
         sed -i 's/^pkgname=.*/pkgname='"$2"'/g' PKGBUILD
+    else
+        AURNAME="$1"
     fi
 
     # force compatibility
@@ -81,7 +84,7 @@ aurbuild() {
 
     checkmake
     if ls *.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv *.pkg.tar.xz ../build/"$1".pkg.tar.xz
+        mv *.pkg.tar.xz ../build/"$AURNAME".pkg.tar.xz
     else
         mv *.pkg.tar.xz ../build/
     fi
