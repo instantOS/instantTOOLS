@@ -47,9 +47,9 @@ bashbuild() {
     checkmake
 
     if ls *.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv *.pkg.tar.xz ../build/"$1".pkg.tar.xz
+        mv *.pkg.tar.xz ~/stuff/extra/build/"$1".pkg.tar.xz
     else
-        mv *.pkg.tar.xz ../build/
+        mv *.pkg.tar.xz ~/stuff/extra/build/
     fi
     cd ..
 }
@@ -60,7 +60,7 @@ themebuild() {
     for i in $THEMES; do
         echo "$i" >/tmp/instanttheme
         checkmake
-        mv *.pkg.tar.xz ../build/$1-$i.pkg.tar.xz
+        mv *.pkg.tar.xz ~/stuff/extra/build/$1-$i.pkg.tar.xz
         buildclean "$1-"
     done
     cd ..
@@ -74,18 +74,19 @@ aurbuild() {
         AURNAME="$1"
     fi
 
-    if [ -e ../build/"$AURNAME".pkg.tar.xz ]; then
+    if [ -e ~/stuff/extra/build/"$AURNAME".pkg.tar.xz ]; then
         echo "package $AURNAME already exists"
         return
     fi
 
+    rm -rf ~/.cache/tmpaur
     mkdir -p ~/.cache/tmpaur/
     pushd .
     cd ~/.cache/tmpaur/
     git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
     cd $1
 
-    sed -i 's/^pkgname=.*/pkgname='"$2"'/g' PKGBUILD
+    sed -i 's/^pkgname=.*/pkgname='"$AURNAME"'/g' PKGBUILD
 
     # force compatibility
     if [ -e ~/stuff/32bit ] || uname -m | grep -q '^i'; then
@@ -101,9 +102,9 @@ aurbuild() {
     popd
 
     if ls ~/.cache/tmpaur/"$1"/*.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ../build/"$AURNAME".pkg.tar.xz
+        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/stuff/extra/build/"$AURNAME".pkg.tar.xz
     else
-        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ../build/
+        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/stuff/extra/build/
     fi
 
     cd ..

@@ -20,6 +20,7 @@ echo "removing old ones"
 [ -e extra ] && rm -rf extra
 [ -e 32bit ] && rm -rf 32bit
 git clone --depth=1 https://github.com/instantos/extra.git
+mkdir extra/build
 
 if [ -n "$BUILD32" ]; then
     echo "building 32bit exclusive packages"
