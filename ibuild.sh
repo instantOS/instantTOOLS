@@ -33,6 +33,9 @@ build)
 depend)
     runscript depend
     ;;
+aur)
+    runscript "$2" "$3"
+    ;;
 *)
     echo "usage: ibuild push/build/download"
     ;;

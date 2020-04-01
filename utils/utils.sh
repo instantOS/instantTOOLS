@@ -89,6 +89,35 @@ aurbuild() {
     rm -rf $1
 }
 
+aurinstall() {
+    if ! curl -s "https://aur.archlinux.org/packages/$1" | grep -iq 'Git clone URL'; then
+        echo "$1 is not an aur package"
+    fi
+    pushd .
+    mkdir -p ~/.cache/aur
+    cd ~/.cache/aur
+
+    git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
+    cd $1
+    if [ -n "$2" ]; then
+        sed -i 's/^pkgname=.*/pkgname='"$2"'/g' PKGBUILD
+    fi
+
+    # force compatibility
+    if [ -e ~/stuff/32bit ] || uname -m | grep -q '^i'; then
+        sed -i "s/^arch=/arch=('any')/g" PKGBUILD
+    fi
+
+    checkmake
+    if ls *.pkg.tar.xz; then
+        sudo pacman -U ./*.pkg.tar.xz
+    fi
+
+    cd ..
+    rm -rf $1
+    popd
+}
+
 # put a binary from the web in the repo
 linkbuild() {
     if ! $(pwd) | grep -q 'build'; then

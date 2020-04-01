@@ -36,8 +36,10 @@ for i in build:
 pacmancmd = "pacman -Sy --needed --noconfirm "
 
 for i in packages:
-    if not os.system("command -v ", i) and os.system("pacman -Ss ", i) == 0:
-        pacmancmd += i + " "
+    if os.system("pacman -Ss " + i) == 0:
+        os.system("pacman -S --needed --noconfirm " + i)
+    elif os.system("curl -s https://aur.archlinux.org/packages/" + i + " | grep -q 'Git Clone URL'") == 0:
+        os.system("ibuild aur " + i)
 
 script = open("pkgdepend.sh", "w")
 script.write(pacmancmd)
