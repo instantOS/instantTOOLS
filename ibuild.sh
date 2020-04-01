@@ -30,6 +30,9 @@ download)
 build)
     runscript singlebuild "$2"
     ;;
+depend)
+    runscript depend
+    ;;
 *)
     echo "usage: ibuild push/build/download"
     ;;

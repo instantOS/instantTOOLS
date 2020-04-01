@@ -14,6 +14,19 @@ fi
 
 mkdir build
 
+if [ -e aurpackages ]; then
+    # aur packages#
+    for i in $(cat aurpackages); do
+        if grep -q ':' <<<"$i"; then
+            AURNAME=$(echo $i | grep -o '^[^:]*')
+            AURFINALNAME=$(echo $i | grep -o '[^:]*$')
+            aurbuild "$AURNAME" "$AURFINALNAME"
+        else
+            aurbuild "$i"
+        fi
+    done
+fi
+
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
 
@@ -32,16 +45,5 @@ for i in ./*; do
         fi
         echo "building $i"
         bashbuild ${i#./}
-    fi
-done
-
-# aur packages#
-for i in $(cat aurpackages); do
-    if grep -q ':' <<<"$i"; then
-        AURNAME=$(echo $i | grep -o '^[^:]*')
-        AURFINALNAME=$(echo $i | grep -o '[^:]*$')
-        aurbuild "$AURNAME" "$AURFINALNAME"
-    else
-        aurbuild "$i"
     fi
 done
