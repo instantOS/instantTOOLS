@@ -68,26 +68,44 @@ themebuild() {
 
 # build a program from the AUR
 aurbuild() {
-    git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
-    cd $1
     if [ -n "$2" ]; then
         AURNAME="$2"
-        sed -i 's/^pkgname=.*/pkgname='"$2"'/g' PKGBUILD
     else
         AURNAME="$1"
     fi
+
+    if [ -e ../build/"$AURNAME".pkg.tar.xz ]; then
+        echo "package $AURNAME already exists"
+        return
+    fi
+
+    mkdir -p ~/.cache/tmpaur/
+    pushd ~/.cache/tmpaur/
+
+    git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
+    cd $1
+
+    sed -i 's/^pkgname=.*/pkgname='"$2"'/g' PKGBUILD
 
     # force compatibility
     if [ -e ~/stuff/32bit ] || uname -m | grep -q '^i'; then
         sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
     fi
 
-    checkmake
-    if ls *.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv *.pkg.tar.xz ../build/"$AURNAME".pkg.tar.xz
+    checkmake || {
+        popd
+        echo "checkmake failed"
+        exit
+    }
+    
+    popd
+
+    if ls ~/.cache/tmpaur/*.pkg.tar.xz | wc -l | grep -q '1'; then
+        mv ~/.cache/tmpaur/*.pkg.tar.xz ../build/"$AURNAME".pkg.tar.xz
     else
-        mv *.pkg.tar.xz ../build/
+        mv ~/.cache/tmpaur/*.pkg.tar.xz ../build/
     fi
+
     cd ..
     rm -rf $1
 }
