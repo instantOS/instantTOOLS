@@ -13,7 +13,7 @@ if ! pacman -Qi paperbash &>/dev/null; then
 fi
 
 mkdir build
-
+pushd .
 if [ -e aurpackages ]; then
     # aur packages#
     for i in $(cat aurpackages); do
@@ -24,9 +24,11 @@ if [ -e aurpackages ]; then
         else
             aurbuild "$i"
         fi
+        popd
     done
 fi
 
+popd
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
 
@@ -45,5 +47,7 @@ for i in ./*; do
         fi
         echo "building $i"
         bashbuild ${i#./}
+    else
+        echo "skipping folder $i, no PKGFILE found"
     fi
 done
