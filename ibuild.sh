@@ -34,9 +34,10 @@ depend)
     runscript depend
     ;;
 aur)
-    runscript "$2" "$3"
+    source /usr/share/instanttools/utils.sh
+    aurinstall "$2" "$3"
     ;;
 *)
-    echo "usage: ibuild push/build/download"
+    echo "usage: ibuild push/build/download/aur/depend"
     ;;
 esac
