@@ -36,7 +36,7 @@ for i in build:
 pacmancmd = "pacman -Sy --needed --noconfirm "
 
 for i in packages:
-    if os.system("pacman -Ss ", i) == 0:
+    if not os.system("command -v ", i) and os.system("pacman -Ss ", i) == 0:
         pacmancmd += i + " "
 
 script = open("pkgdepend.sh", "w")
