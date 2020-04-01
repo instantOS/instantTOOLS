@@ -28,11 +28,10 @@ if [ -n "$BUILD32" ]; then
     /usr/share/instanttools/build.sh
 fi
 
-cd extra
+cd ~/stuff/extra
 /usr/share/instanttools/build.sh
 
 # combine 32bit only and packages with an unaltered build process
 if [ -n "$BUILD32" ]; then
-    mv ../32bit/build/*
-    ./build/
+    mv ../32bit/build/* ./build/
 fi
