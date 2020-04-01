@@ -27,7 +27,7 @@ if [ -n "$BUILD32" ]; then
     cd 32bit
     /usr/share/instanttools/build.sh
 fi
-
+cd ~/stuff
 git clone --depth=1 https://github.com/instantos/extra.git
 cd ~/stuff/extra
 /usr/share/instanttools/build.sh
