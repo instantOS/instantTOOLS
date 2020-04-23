@@ -22,7 +22,3 @@ Build full repo
 
 Build, optionally rename and install an AUR package  
 ` `  ` ibuild aur packagename rename `  ` ` 
-
-Install dependencies listed in PKGFILE  
-` `  ` pkgparse `  ` ` 
-

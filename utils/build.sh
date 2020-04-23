@@ -30,7 +30,7 @@ fi
 cd "$BUILDDIR"
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
-        # dont build unaltered one if there is a 32 bit version
+        # 32 bit versions override default ones
         if pwd | grep -q 'extra'; then
             if [ -e ~/stuff/32bit/"$i" ]; then
                 touch /tmp/pkgignore
@@ -44,7 +44,9 @@ for i in ./*; do
             continue
         fi
         echo "building $i"
-        bashbuild ${i#./}
+        if ! bashbuild ${i#./}; then
+            echo "package $i build failed, exiting"
+        fi
     else
         echo "skipping folder $i, no PKGFILE found"
     fi

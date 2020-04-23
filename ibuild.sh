@@ -30,17 +30,11 @@ download)
 build)
     runscript singlebuild "$2"
     ;;
-depend)
-    runscript depend
-    ;;
-parse)
-    runscript pkgparse "$2"
-    ;;
 aur)
     source /usr/share/instanttools/utils.sh
     aurinstall "$2" "$3"
     ;;
 *)
-    echo "usage: ibuild push/build/download/aur/depend"
+    echo "usage: ibuild push/build/download/aur"
     ;;
 esac
