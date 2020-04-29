@@ -66,7 +66,7 @@ mkdir -p ~/.cache/instantos/pkg
 cp ~/workspace/extra/$1/* .
 cd ~/.cache/instantos/pkg
 
-makepkg
+makepkg .
 
 mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz
 
