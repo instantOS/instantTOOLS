@@ -30,10 +30,12 @@ if [ -n "$BUILD32" ]; then
     echo "building 32bit exclusive packages"
     git clone --depth=1 https://github.com/instantos/32bit.git
     cd 32bit
+    rm -rf .git
     /usr/share/instanttools/build.sh || exit 1
 fi
 
 cd ~/stuff
 git clone --depth=1 https://github.com/instantos/extra.git
 cd ~/stuff/extra
+rm -rf .git
 /usr/share/instanttools/build.sh
