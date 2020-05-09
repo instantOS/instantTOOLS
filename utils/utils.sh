@@ -138,7 +138,7 @@ repobuild() {
     curl -s https://mirror.alpix.eu/manjaro/stable/extra/x86_64/ |
         grep "$1" | grep -o '>.*<' | grep -o '[^<>]*' | sort | head -1 >/tmp/instantrepo
 
-    wget "$(cat /tmp/instantrepo)"
+    wget "https://mirror.alpix.eu/manjaro/stable/extra/x86_64/$(cat /tmp/instantrepo)"
 
 }
 
