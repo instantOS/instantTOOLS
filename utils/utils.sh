@@ -135,10 +135,25 @@ aurinstall() {
 
 # download package directly from manjaro-repo
 repobuild() {
-    curl -s https://mirror.alpix.eu/manjaro/stable/extra/x86_64/ |
-        grep "$1" | grep -o '>.*<' | grep -o '[^<>]*' | sort | head -1 >/tmp/instantrepo
+    if [ -n "$2" ]; then
+        MREPO="$1"
+        echo "custom repo $MREPO"
+        shift 1
+        MPACKAGE="$1"
+    else
+        if echo "$1" | grep -q ':'; then
+            MREPO="$(echo $1 | grep -o '^[^:]*')"
+            MPACKAGE="$(echo $1 | grep -o '[^:]*$')"
+        else
+            MREPO="extra"
+            MPACKAGE="$1"
+        fi
+    fi
 
-    wget "https://mirror.alpix.eu/manjaro/stable/extra/x86_64/$(cat /tmp/instantrepo)"
+    curl -s https://mirror.alpix.eu/manjaro/stable/"$MREPO"/x86_64/ |
+        grep ">$MPACKAGE" | grep -o '>.*<' | grep -o '[^<>]*' | sort | head -1 >/tmp/instantrepo
+    echo "dowloading package https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
+    wget "https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
 
 }
 
