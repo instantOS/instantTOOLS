@@ -13,6 +13,14 @@ if ! pacman -Qi paperbash &>/dev/null; then
 fi
 
 BUILDDIR="$(pwd)"
+
+# packages brought over from manjaro
+if [ -e manjaropackages ]; then
+    for i in $(cat manjaropackages); do
+        repobuild "$i"
+    done
+fi
+
 if [ -e aurpackages ]; then
     # aur packages#
     for i in $(cat aurpackages); do
@@ -24,13 +32,6 @@ if [ -e aurpackages ]; then
             aurbuild "$i"
         fi
         cd "$BUILDDIR"
-    done
-fi
-
-# packages brought over from manjaro
-if [ -e manjaropackages ]; then
-    for i in $(cat manjaropackages); do
-        repobuild "$i"
     done
 fi
 

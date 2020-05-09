@@ -155,6 +155,9 @@ repobuild() {
     echo "dowloading package https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
     wget "https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
 
+    ls *.pkg.tar.xz &>/dev/null && mv *.pkg.tar.xz ~/instantbuild
+    ls *.pkg.tar.zst &>/dev/null && mv *.pkg.tar.zst ~/instantbuild
+
 }
 
 # put a binary from the web in the repo
