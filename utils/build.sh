@@ -29,7 +29,7 @@ fi
 
 # packages brought over from manjaro
 if [ -e manjaropackages ]; then
-    for i in $(cat aurpackages); do
+    for i in $(cat manjaropackages); do
         repobuild "$i"
     done
 fi
