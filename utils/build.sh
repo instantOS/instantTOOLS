@@ -12,12 +12,25 @@ if ! pacman -Qi paperbash &>/dev/null; then
     exit
 fi
 
-mkdir build
+BUILDDIR="$(pwd)"
+if [ -e aurpackages ]; then
+    # aur packages#
+    for i in $(cat aurpackages); do
+        if grep -q ':' <<<"$i"; then
+            AURNAME=$(echo $i | grep -o '^[^:]*')
+            AURFINALNAME=$(echo $i | grep -o '[^:]*$')
+            aurbuild "$AURNAME" "$AURFINALNAME"
+        else
+            aurbuild "$i"
+        fi
+        cd "$BUILDDIR"
+    done
+fi
 
+cd "$BUILDDIR"
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
-
-        # dont build unaltered one if there is a 32 bit version
+        # 32 bit versions override default ones
         if pwd | grep -q 'extra'; then
             if [ -e ~/stuff/32bit/"$i" ]; then
                 touch /tmp/pkgignore
@@ -31,20 +44,10 @@ for i in ./*; do
             continue
         fi
         echo "building $i"
-        bashbuild ${i#./}
+        if ! bashbuild ${i#./}; then
+            echo "package $i build failed, exiting"
+        fi
+    else
+        echo "skipping folder $i, no PKGFILE found"
     fi
 done
-
-# aur packages
-if [ -e aurpackages ]; then
-    echo "building aur packages"
-    for i in $(cat aurpackages); do
-        if grep -q ':' <<<"$i"; then
-            AURNAME=$(echo $i | grep -o '^[^:]*')
-            AURFINALNAME=$(echo $i | grep -o '[^:]*$')
-            aurbuild "$AURNAME" "$AURFINALNAME"
-        else
-            aurbuild "$i"
-        fi
-    done
-fi

@@ -30,7 +30,11 @@ download)
 build)
     runscript singlebuild "$2"
     ;;
+aur)
+    source /usr/share/instanttools/utils.sh
+    aurinstall "$2" "$3"
+    ;;
 *)
-    echo "usage: ibuild push/build/download"
+    echo "usage: ibuild push/build/download/aur"
     ;;
 esac

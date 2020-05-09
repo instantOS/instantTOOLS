@@ -4,14 +4,14 @@
 ## get a full local copy of the repo without building it yourself ##
 ####################################################################
 
-mkdir -p ~/stuff/extra/build
+mkdir ~/instantbuild
 
 echo "pulling full repo"
 
 if ! uname -m | grep -q '^i'; then
     LINK="instantos.surge.sh"
 else
-    mkdir -p ~/stuff/32bit/build
+    mkdir -p ~/instantbuild
     echo "fetching 32 bit repo"
     LINK="instantos32.surge.sh"
 fi

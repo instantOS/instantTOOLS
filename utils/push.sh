@@ -5,7 +5,7 @@
 ## uploads files to repo                           ##
 #####################################################
 
-cd ~/stuff/extra/build || exit 1
+cd ~/instantbuild || exit 1
 
 repo-add instant.db.tar.xz ./*.pkg.tar.xz
 [ -e index.html ] && rm index.html
@@ -16,7 +16,7 @@ if ! apindex .; then
 fi
 
 echo "uploading to surge"
-if [ -e ~/stuff/32bit ]; then
+if uname -m | grep -q "x86_64"; then
     surge . instantos.surge.sh
 else
     surge . instantos32.surge.sh

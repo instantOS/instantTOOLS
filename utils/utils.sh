@@ -9,9 +9,6 @@ mac
 arc
 manjaro"
 
-[ -e build ] && rm -rf build
-mkdir build
-
 # exit if failed build detected
 checkmake() {
     # remove already existing packages
@@ -19,7 +16,7 @@ checkmake() {
         rm *.pkg.tar.*
     fi
 
-    if makepkg -s -C && ls *.pkg.tar.xz &>/dev/null; then
+    if makepkg -C . && ls *.pkg.tar.xz &>/dev/null; then
         echo "build successful"
     else
         echo "build failed at $(pwd)"
@@ -47,9 +44,9 @@ bashbuild() {
     checkmake
 
     if ls *.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv *.pkg.tar.xz ../build/"$1".pkg.tar.xz
+        mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz
     else
-        mv *.pkg.tar.xz ../build/
+        mv *.pkg.tar.xz ~/instantbuild/
     fi
     cd ..
 }
@@ -60,7 +57,7 @@ themebuild() {
     for i in $THEMES; do
         echo "$i" >/tmp/instanttheme
         checkmake
-        mv *.pkg.tar.xz ../build/$1-$i.pkg.tar.xz
+        mv *.pkg.tar.xz ~/stuff/extra/build/$1-$i.pkg.tar.xz
         buildclean "$1-"
     done
     cd ..
@@ -68,6 +65,53 @@ themebuild() {
 
 # build a program from the AUR
 aurbuild() {
+    if [ -n "$2" ]; then
+        AURNAME="$2"
+    else
+        AURNAME="$1"
+    fi
+
+    if [ -e ~/instantbuild/"$AURNAME".pkg.tar.xz ]; then
+        echo "package $AURNAME already exists"
+        return
+    fi
+
+    rm -rf ~/.cache/tmpaur
+    mkdir -p ~/.cache/tmpaur/
+    cd ~/.cache/tmpaur/
+    git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
+    cd $1
+
+    sed -i 's/^pkgname=.*/pkgname='"$AURNAME"'/g' PKGBUILD
+
+    # force compatibility
+    if [ -e ~/stuff/32bit ] || uname -m | grep -q '^i'; then
+        sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
+    fi
+
+    checkmake || {
+        echo "checkmake failed"
+        exit
+    }
+
+    if ls ~/.cache/tmpaur/"$1"/*.pkg.tar.xz | wc -l | grep -q '1'; then
+        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/"$AURNAME".pkg.tar.xz
+    else
+        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/
+    fi
+
+    cd ..
+    rm -rf $1
+}
+
+aurinstall() {
+    if ! curl -s "https://aur.archlinux.org/packages/$1" | grep -iq 'Git clone URL'; then
+        echo "$1 is not an aur package"
+    fi
+    pushd .
+    mkdir -p ~/.cache/aur
+    cd ~/.cache/aur
+
     git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
     cd $1
     if [ -n "$2" ]; then
@@ -75,25 +119,25 @@ aurbuild() {
     fi
 
     # force compatibility
-    if [ -e ~/stuff/32bit ]; then
-        sed -i "s/^arch=/arch=('any')/g" PKGBUILD
+    if [ -e ~/stuff/32bit ] || uname -m | grep -q '^i'; then
+        sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
     fi
 
     checkmake
-    if ls *.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv *.pkg.tar.xz ../build/"$1".pkg.tar.xz
-    else
-        mv *.pkg.tar.xz ../build/
+    if ls *.pkg.tar.xz; then
+        sudo pacman -U ./*.pkg.tar.xz
     fi
+
     cd ..
     rm -rf $1
+    popd
 }
 
 # put a binary from the web in the repo
 linkbuild() {
     if ! $(pwd) | grep -q 'build'; then
         if [ -e build ]; then
-            cd build
+            cd ~/instantbuild
             TEMPBUILD="true"
         fi
     fi
