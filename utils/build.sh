@@ -27,6 +27,13 @@ if [ -e aurpackages ]; then
     done
 fi
 
+# packages brought over from manjaro
+if [ -e manjaropackages ]; then
+    for i in $(cat aurpackages); do
+        repobuild "$i"
+    done
+fi
+
 cd "$BUILDDIR"
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then

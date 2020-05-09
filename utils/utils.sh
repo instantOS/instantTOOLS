@@ -133,6 +133,15 @@ aurinstall() {
     popd
 }
 
+# download package directly from manjaro-repo
+repobuild() {
+    curl -s https://mirror.alpix.eu/manjaro/stable/extra/x86_64/ |
+        grep "$1" | grep -o '>.*<' | grep -o '[^<>]*' | sort | head -1 >/tmp/instantrepo
+
+    wget "$(cat /tmp/instantrepo)"
+
+}
+
 # put a binary from the web in the repo
 linkbuild() {
     if ! $(pwd) | grep -q 'build'; then
