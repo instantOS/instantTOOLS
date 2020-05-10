@@ -8,6 +8,8 @@
 cd ~/instantbuild || exit 1
 
 repo-add instant.db.tar.xz ./*.pkg.tar.xz
+ls *.zst && repo-add instant.db.tar.xz ./*.pkg.tar.zst
+
 [ -e index.html ] && rm index.html
 
 if ! apindex .; then
