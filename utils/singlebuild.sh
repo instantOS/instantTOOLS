@@ -63,10 +63,10 @@ if [ -e "$1".* ]; then
 fi
 
 mkdir -p ~/.cache/instantos/pkg
-cp ~/workspace/extra/$1/* .
 cd ~/.cache/instantos/pkg
+cp ~/workspace/extra/$1/* .
 
-makepkg .
+makepkg . || exit 1
 
 mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz
 
