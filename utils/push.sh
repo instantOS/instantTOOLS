@@ -4,17 +4,18 @@
 ## script to run after building instantos packages ##
 ## uploads files to repo                           ##
 #####################################################
+# clear old database
+rm instant.db.*
+rm instant.db
+rm instant.files.*
+rm instant.files
 
 cd ~/instantbuild || exit 1
 
 repo-add instant.db.tar.xz ./*.pkg.tar.xz
-ls *.zst && repo-add instant.db.tar.xz ./*.pkg.tar.zst
+ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
 
 [ -e index.html ] && rm index.html
-
-# clear old database
-rm instant.db.*
-rm instant.files.*
 
 if ! apindex .; then
     echo "error: apindex not found"
