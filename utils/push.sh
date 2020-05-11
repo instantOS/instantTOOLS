@@ -12,6 +12,10 @@ ls *.zst && repo-add instant.db.tar.xz ./*.pkg.tar.zst
 
 [ -e index.html ] && rm index.html
 
+# clear old database
+rm instant.db.*
+rm instant.files.*
+
 if ! apindex .; then
     echo "error: apindex not found"
     exit 1

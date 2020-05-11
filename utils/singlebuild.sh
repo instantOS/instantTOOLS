@@ -64,11 +64,15 @@ fi
 
 mkdir -p ~/.cache/instantos/pkg
 cd ~/.cache/instantos/pkg
-cp ~/workspace/extra/$1/* .
+cp -r ~/workspace/extra/$1/* .
+
+rm -rf src
+rm -rf pkg
+rm *.pkg.tar.*
 
 makepkg . || exit 1
 
-mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz
+mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz || exit 1
 
 cd
 rm -rf .cache/instantos/pkg
