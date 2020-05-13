@@ -72,7 +72,7 @@ rm *.pkg.tar.*
 
 makepkg . || exit 1
 
-mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz || exit 1
+mv *.pkg.tar.xz ~/instantbuild/ || exit 1
 
 cd
 rm -rf .cache/instantos/pkg

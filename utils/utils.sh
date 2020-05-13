@@ -43,11 +43,7 @@ bashbuild() {
 
     checkmake
 
-    if ls *.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv *.pkg.tar.xz ~/instantbuild/"$1".pkg.tar.xz
-    else
-        mv *.pkg.tar.xz ~/instantbuild/
-    fi
+    mv *.pkg.tar.xz ~/instantbuild/
     cd ..
 }
 
@@ -71,7 +67,7 @@ aurbuild() {
         AURNAME="$1"
     fi
 
-    if [ -e ~/instantbuild/"$AURNAME".pkg.tar.xz ]; then
+    if [ -e ~/instantbuild/"$AURNAME"*.pkg.tar.xz ]; then
         echo "package $AURNAME already exists"
         return
     fi
@@ -94,11 +90,7 @@ aurbuild() {
         exit
     }
 
-    if ls ~/.cache/tmpaur/"$1"/*.pkg.tar.xz | wc -l | grep -q '1'; then
-        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/"$AURNAME".pkg.tar.xz
-    else
-        mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/
-    fi
+    mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/
 
     cd ..
     rm -rf $1
