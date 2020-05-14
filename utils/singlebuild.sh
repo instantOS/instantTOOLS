@@ -60,6 +60,7 @@ fi
 if [ -e "$1".* ]; then
     echo "removing previous version"
     rm "$1".*
+    rm "$1"*.*
 fi
 
 mkdir -p ~/.cache/instantos/pkg
