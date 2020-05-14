@@ -73,6 +73,12 @@ rm *.pkg.tar.*
 
 makepkg . || exit 1
 
+if ls ~/instantbuild/"$1"* &>/dev/null; then
+    echo "removing instantbuild pkgfiles"
+    rm ~/instantbuild/"$1".*
+    rm ~/instantbuild/"$1"-*.*
+fi
+
 mv *.pkg.tar.xz ~/instantbuild/ || exit 1
 
 cd
