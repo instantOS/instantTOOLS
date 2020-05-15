@@ -9,6 +9,15 @@ mac
 arc
 manjaro"
 
+# ensure PACKAGER is not empty
+if ! [ -e ~/.makepkg.conf ]; then
+    echo 'PACKAGER="paperbenni <paperbenni@gmail.com>"' >~/.makepkg.conf
+else
+    if ! grep -iq "PACKAGER" ~/.makepkg.conf; then
+        echo 'PACKAGER="paperbenni <paperbenni@gmail.com>"' >>~/.makepkg.conf
+    fi
+fi
+
 # exit if failed build detected
 checkmake() {
     # remove already existing packages
