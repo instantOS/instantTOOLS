@@ -9,4 +9,5 @@ sudo pacman -S --needed \
     meson \
     check \
     rxvt-unicode \
-    libnotify
+    libnotify \
+    tk
