@@ -12,4 +12,8 @@ sudo pacman -S --needed \
     libnotify \
     tk \
     vala \
-    gobject-introspection
+    gobject-introspection \
+    vte3 \
+    dbus-glib \
+    archlinux-appstream-data \
+    appstream-glib
