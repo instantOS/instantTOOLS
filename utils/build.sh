@@ -38,14 +38,6 @@ fi
 cd "$BUILDDIR"
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
-        # 32 bit versions override default ones
-        if pwd | grep -q 'extra'; then
-            if [ -e ~/stuff/32bit/"$i" ]; then
-                touch /tmp/pkgignore
-                echo "ignoring package because its also in 32bit repo"
-            fi
-        fi
-
         if [ -e "$i"/ignore ] || [ -e /tmp/pkgignore ]; then
             echo "package $i is ignored"
             rm /tmp/pkgignore

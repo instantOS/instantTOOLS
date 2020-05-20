@@ -90,7 +90,7 @@ aurbuild() {
     sed -i 's/^pkgname=.*/pkgname='"$AURNAME"'/g' PKGBUILD
 
     # force compatibility
-    if [ -e ~/stuff/32bit ] || uname -m | grep -q '^i'; then
+    if uname -m | grep -q '^i'; then
         sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
     fi
 
@@ -120,7 +120,7 @@ aurinstall() {
     fi
 
     # force compatibility
-    if [ -e ~/stuff/32bit ] || uname -m | grep -q '^i'; then
+    if uname -m | grep -q '^i'; then
         sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
     fi
 

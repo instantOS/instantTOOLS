@@ -16,34 +16,14 @@ if ! [ -e ~/workspace/extra ]; then
     git clone --depth=1 https://github.com/instantos/extra
 fi
 
-if uname -m | grep -q '^i'; then
-    IS32=True
-    if ! [ -e ~/workspace/extra ]; then
-        echo "downloading extra"
-        cd ~/workspace
-        git clone --depth=1 https://github.com/instantos/32bit
-    fi
-fi
-
-if [ -n "$IS32" ]; then
-    cd ~/workspace/32bit
-    git pull || exit
-    cd ..
-fi
-
 cd ~/workspace/extra
 git pull || exit
 cd ..
 
-if [ -n "$IS32" ] && [ -e "32bit/$1/PKGBUILD" ]; then
-    echo "found 32 bit package"
-    FOUND32=true
-else
-    if ! [ -e "extra/$1/PKGBUILD" ]; then
-        echo "package $1 not found"
-        exit 1
+if ! [ -e "extra/$1/PKGBUILD" ]; then
+    echo "package $1 not found"
+    exit 1
 
-    fi
 fi
 
 # get a full copy of the repo working first
@@ -51,11 +31,8 @@ if ! [ -e ~/instantbuild ]; then
     ibuild download
 fi
 
-if [ -n "$FOUND32" ]; then
-    cd ~/workspace/32bit/$1
-else
-    cd ~/workspace/extra/$1
-fi
+
+cd ~/workspace/extra/$1
 
 if [ -e "$1".* ]; then
     echo "removing previous version"
