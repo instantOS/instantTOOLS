@@ -90,8 +90,10 @@ aurbuild() {
     sed -i 's/^pkgname=.*/pkgname='"$AURNAME"'/g' PKGBUILD
 
     # force compatibility
+    # disable ninja testing
     if uname -m | grep -q '^i'; then
         sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
+        sed -i "s/.*ninja -C build test.*/echo test/g" PKGBUILD
     fi
 
     checkmake || {
