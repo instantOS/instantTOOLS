@@ -10,4 +10,6 @@ sudo pacman -S --needed \
     check \
     rxvt-unicode \
     libnotify \
-    tk
+    tk \
+    vala \
+    gobject-introspection
