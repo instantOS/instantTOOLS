@@ -16,4 +16,6 @@ sudo pacman -S --needed \
     vte3 \
     dbus-glib \
     archlinux-appstream-data \
-    appstream-glib
+    appstream-glib \
+    libindicator-gtk3 \
+    libindicator-gtk2
