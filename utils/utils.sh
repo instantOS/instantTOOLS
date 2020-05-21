@@ -94,6 +94,8 @@ aurbuild() {
     if uname -m | grep -q '^i'; then
         sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
         sed -i "s/.*ninja -C build test.*/echo test/g" PKGBUILD
+        sed -i 's/\{,\.sig\}//g' PKGBUILD
+        sed -i "s/^sha[0-9]*sums=.*/sha256sums=('SKIP')/g" PKGBUILD
     fi
 
     checkmake || {
