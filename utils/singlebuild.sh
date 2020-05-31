@@ -48,7 +48,7 @@ rm -rf src
 rm -rf pkg
 rm *.pkg.tar.*
 
-makepkg . || exit 1
+makepkg -s . || exit 1
 
 if ls ~/instantbuild/"$1"* &>/dev/null; then
     echo "removing instantbuild pkgfiles"
