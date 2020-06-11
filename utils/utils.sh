@@ -91,8 +91,8 @@ aurbuild() {
 
     # force compatibility
     # disable ninja testing
+    sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
     if uname -m | grep -q '^i'; then
-        sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
         sed -i "s/.*ninja -C build test.*/echo test/g" PKGBUILD
         sed -i 's/{,\.sig}//g' PKGBUILD
     fi
