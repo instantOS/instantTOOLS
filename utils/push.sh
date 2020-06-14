@@ -28,3 +28,9 @@ if uname -m | grep -q "x86_64"; then
 else
     surge . instantos32.surge.sh
 fi
+
+if [ -e .netlify ] && command -v netlify &>/dev/null; then
+    echo "deploying netlify"
+    echo "
+" | netlify deploy --prod
+fi
