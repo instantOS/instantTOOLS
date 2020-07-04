@@ -39,4 +39,8 @@ if [ -e PKGBUILD ]; then
 fi
 
 cp -r ~/aur/extra/"$1"/* .
-makepkg --printsrcinfo
+
+makepkg --printsrcinfo | tee .SRCINFO
+git add .
+git commit -m "sync PKGBUILD version to upstream"
+git push
