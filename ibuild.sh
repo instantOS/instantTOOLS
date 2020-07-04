@@ -30,6 +30,9 @@ download)
 build)
     runscript singlebuild "$2"
     ;;
+updateaur)
+    runscript aurupdate "$2"
+    ;;
 aur)
     source /usr/share/instanttools/utils.sh
     aurinstall "$2" "$3"
