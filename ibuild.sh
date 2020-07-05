@@ -27,6 +27,9 @@ push)
 download)
     runscript fetch
     ;;
+install)
+    runscript install "$2"
+    ;;
 build)
     runscript singlebuild "$2"
     ;;
