@@ -10,6 +10,7 @@ if ! [ -e ~/workspace/extra ]; then
     cd extra
 else
     cd ~/workspace/extra
+    git pull || exit
 fi
 
 if [ -z "$1" ]; then
