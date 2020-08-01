@@ -12,11 +12,11 @@ fi
 if ! [ -e ~/workspace/extra ]; then
     echo "downloading extra"
     mkdir ~/workspace
-    cd ~/workspace
+    cd ~/workspace || exit 1
     git clone --depth=1 https://github.com/instantos/extra
 fi
 
-cd ~/workspace/extra
+cd ~/workspace/extra || exit 1
 git pull || exit
 cd ..
 
@@ -31,18 +31,17 @@ if ! [ -e ~/instantbuild ]; then
     ibuild download
 fi
 
+cd ~/workspace/extra/"$1" || exit 1
 
-cd ~/workspace/extra/$1
-
-if [ -e "$1".* ]; then
+if ls "$1".*; then
     echo "removing previous version"
     rm "$1".*
     rm "$1"*.*
 fi
 
 mkdir -p ~/.cache/instantos/pkg
-cd ~/.cache/instantos/pkg
-cp -r ~/workspace/extra/$1/* .
+cd ~/.cache/instantos/pkg || exit 1
+cp -r ~/workspace/extra/"$1"/* . || exit 1
 
 rm -rf src
 rm -rf pkg
@@ -56,8 +55,8 @@ if ls ~/instantbuild/"$1"* &>/dev/null; then
     rm ~/instantbuild/"$1"-*.*
 fi
 
-mv *.pkg.tar.xz ~/instantbuild/ || exit 1
+mv *.pkg.tar.* ~/instantbuild/ || exit 1
 
-cd
+cd || exit 1
 rm -rf .cache/instantos/pkg
 echo "done building $1"
