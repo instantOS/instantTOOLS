@@ -15,22 +15,5 @@ cd ~/instantbuild || exit 1
 repo-add instant.db.tar.xz ./*.pkg.tar.xz
 ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
 
-[ -e index.html ] && rm index.html
-
-if ! apindex .; then
-    echo "error: apindex not found"
-    exit 1
-fi
-
-echo "uploading to surge"
-if uname -m | grep -q "x86_64"; then
-    surge . instantos.surge.sh
-else
-    surge . instantos32.surge.sh
-fi
-
-if [ -e .netlify ] && command -v netlify &>/dev/null; then
-    echo "deploying netlify"
-    echo "
-" | netlify deploy --prod
-fi
+# sync to the server
+rsync -P -z -a --delete ~/instantbuild/ benjamin@packages.instantos.io:/var/www/html/
