@@ -36,6 +36,9 @@ build)
 updateaur)
     runscript aurupdate "$2"
     ;;
+backup)
+    runscript backup "$2"
+    ;;
 aur)
     source /usr/share/instanttools/utils.sh
     aurinstall "$2" "$3"
