@@ -24,4 +24,8 @@ if ! git remote | grep -q instantosbackup; then
     git remote add instantosbackup "https://instantosbackup@bitbucket.org/instantosbackup/$1.git"
 fi
 
-git push instantosbackup --all && echo "backup finished"
+if [ "$2" = -f ]; then
+    git push -f instantosbackup --all && echo "force backup finished"
+else
+    git push instantosbackup --all && echo "backup finished"
+fi

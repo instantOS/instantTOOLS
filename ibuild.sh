@@ -37,7 +37,8 @@ updateaur)
     runscript aurupdate "$2"
     ;;
 backup)
-    runscript backup "$2"
+    shift 1
+    runscript backup $@
     ;;
 aur)
     source /usr/share/instanttools/utils.sh
