@@ -5,11 +5,11 @@
 pushd .
 if ! [ -e ~/workspace/extra ]; then
     mkdir ~/workspace
-    cd ~/workspace
+    cd ~/workspace || exit
     git clone --depth=2 https://github.com/instantOS/extra
-    cd extra
+    cd extra || exit
 else
-    cd ~/workspace/extra
+    cd ~/workspace/extra || exit
     git pull || exit
 fi
 
@@ -23,6 +23,6 @@ if ! [ -e "$1" ]; then
     exit
 fi
 
-cd "$1"
+cd "$1" || exit
 makepkg -si
-popd
+popd || exit

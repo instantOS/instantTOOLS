@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "building instantOS repository"
-cd
+cd || exit
 
 if [ -e instantbuild ]; then
     echo "removing older build files"
@@ -15,15 +15,15 @@ elif grep -q '^i' <<<"$UNAME"; then
     echo "detected 32 bit build"
 fi
 
-cd
+cd || exit
 mkdir stuff &>/dev/null
-cd stuff
+cd stuff || exit
 
 echo "removing old ones"
 [ -e extra ] && rm -rf extra
 
-cd ~/stuff
+cd ~/stuff || exit
 git clone --depth=1 https://github.com/instantos/extra.git
-cd ~/stuff/extra
+cd ~/stuff/extra || exit
 rm -rf .git
 /usr/share/instanttools/build.sh

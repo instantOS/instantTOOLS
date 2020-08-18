@@ -11,3 +11,4 @@ chmod +x ./*.sh
 ./depend.sh
 ./install.sh
 echo "done installing instantOS development tools"
+sleep 2

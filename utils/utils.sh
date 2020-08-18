@@ -25,7 +25,7 @@ checkmake() {
         rm *.pkg.tar.*
     fi
 
-    if makepkg -s . && ls *.pkg.tar.xz &>/dev/null; then
+    if makepkg -s . && ls ./*.pkg.tar.xz &>/dev/null; then
         echo "build successful"
     else
         echo "build failed at $(pwd)"
@@ -48,21 +48,21 @@ buildclean() {
 bashbuild() {
     echo "bashbuilding $1"
     [ -e "$1" ] || return
-    cd "$1"
+    cd "$1" || exit
 
     checkmake
 
-    mv *.pkg.tar.xz ~/instantbuild/
+    mv ./*.pkg.tar.xz ~/instantbuild/
     cd ..
 }
 
 # c programs using instantos theming
 themebuild() {
-    cd $1
+    cd "$1" || exit
     for i in $THEMES; do
         echo "$i" >/tmp/instanttheme
         checkmake
-        mv *.pkg.tar.xz ~/stuff/extra/build/$1-$i.pkg.tar.xz
+        mv ./*.pkg.tar.xz ~/stuff/extra/build/"$1-$i".pkg.tar.xz
         buildclean "$1-"
     done
     cd ..
@@ -76,16 +76,16 @@ aurbuild() {
         AURNAME="$1"
     fi
 
-    if [ -e ~/instantbuild/"$AURNAME"*.pkg.tar.xz ]; then
+    if ls ~/instantbuild/"$AURNAME"*.pkg.tar.xz; then
         echo "package $AURNAME already exists"
         return
     fi
 
     rm -rf ~/.cache/tmpaur
     mkdir -p ~/.cache/tmpaur/
-    cd ~/.cache/tmpaur/
+    cd ~/.cache/tmpaur/ || exit
     git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
-    cd $1
+    cd "$1" || exit
 
     sed -i 's/^pkgname=.*/pkgname='"$AURNAME"'/g' PKGBUILD
 
@@ -105,7 +105,7 @@ aurbuild() {
     mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/
 
     cd ..
-    rm -rf $1
+    rm -rf "$1"
 }
 
 aurinstall() {
@@ -114,10 +114,10 @@ aurinstall() {
     fi
     pushd .
     mkdir -p ~/.cache/aur
-    cd ~/.cache/aur
+    cd ~/.cache/aur || exit
 
     git clone --depth=1 "https://aur.archlinux.org/$1.git" || return 1
-    cd $1
+    cd "$1" || exit
     if [ -n "$2" ]; then
         sed -i 's/^pkgname=.*/pkgname='"$2"'/g' PKGBUILD
     fi
@@ -133,8 +133,8 @@ aurinstall() {
     fi
 
     cd ..
-    rm -rf $1
-    popd
+    rm -rf "$1"
+    popd || exit
 }
 
 # download package directly from manjaro-repo
@@ -146,8 +146,8 @@ repobuild() {
         MPACKAGE="$1"
     else
         if echo "$1" | grep -q ':'; then
-            MREPO="$(echo $1 | grep -o '^[^:]*')"
-            MPACKAGE="$(echo $1 | grep -o '[^:]*$')"
+            MREPO="$(echo "$1" | grep -o '^[^:]*')"
+            MPACKAGE="$(echo "$1" | grep -o '[^:]*$')"
         else
             MREPO="extra"
             MPACKAGE="$1"
@@ -159,22 +159,22 @@ repobuild() {
     echo "dowloading package https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
     wget "https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
 
-    ls *.pkg.tar.xz &>/dev/null && mv *.pkg.tar.xz ~/instantbuild
-    ls *.pkg.tar.zst &>/dev/null && mv *.pkg.tar.zst ~/instantbuild
+    ls ./*.pkg.tar.xz &>/dev/null && mv ./*.pkg.tar.xz ~/instantbuild
+    ls ./*.pkg.tar.zst &>/dev/null && mv ./*.pkg.tar.zst ~/instantbuild
 
 }
 
 # put a binary from the web in the repo
 linkbuild() {
-    if ! $(pwd) | grep -q 'build'; then
+    if ! pwd | grep -q 'build'; then
         if [ -e build ]; then
-            cd ~/instantbuild
+            cd ~/instantbuild || exit
             TEMPBUILD="true"
         fi
     fi
 
-    if ! [ -e $1.pkg.tar.xz ]; then
-        wget -q -O $1.pkg.tar.xz "$2"
+    if ! [ -e "$1".pkg.tar.xz ]; then
+        wget -q -O "$1".pkg.tar.xz "$2"
     fi
 
     if [ -n "$TEMPBUILD" ]; then

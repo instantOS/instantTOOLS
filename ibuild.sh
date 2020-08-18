@@ -7,10 +7,10 @@
 # this script is the main wrapper
 
 runscript() {
-    if [ -e /usr/share/instanttools/$1.sh ]; then
+    if [ -e /usr/share/instanttools/"$1".sh ]; then
         IBUILDSCRIPT="$1"
         shift 1
-        /usr/share/instanttools/$IBUILDSCRIPT.sh $@
+        /usr/share/instanttools/"$IBUILDSCRIPT".sh $@
     else
         echo "script $1 not found"
         exit 1
@@ -48,7 +48,7 @@ rebuild)
     if ! imenu -c "this will clear all built packages. Continue"; then
         exit
     fi
-    cd
+    cd || exit 1
     rm -rf stuff/extra
     rm -rf instantbuild
     mkdir instantbuild

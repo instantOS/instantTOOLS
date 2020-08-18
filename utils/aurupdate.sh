@@ -12,7 +12,7 @@ if ! [ -e extra ]; then
     git clone --depth=1 https://github.com/instantOS/extra
 fi
 
-pushd extra
+pushd extra || exit
 git clean -n -X -d -f -f
 git pull
 if ! [ -e "$1"/PKGBUILD ]; then
@@ -28,7 +28,7 @@ if [ -e "$1" ]; then
 fi
 
 git clone ssh://aur@aur.archlinux.org/"$1" || exit
-cd "$1"
+cd "$1" || exit
 
 if [ -e PKGBUILD ]; then
     echo "comparing old and new version"
@@ -44,3 +44,4 @@ makepkg --printsrcinfo | tee .SRCINFO
 git add .
 git commit -m "sync PKGBUILD version to upstream"
 git push
+

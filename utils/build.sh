@@ -31,14 +31,14 @@ if [ -e aurpackages ]; then
         else
             aurbuild "$i"
         fi
-        cd "$BUILDDIR"
+        cd "$BUILDDIR" || exit
     done
 fi
 
-cd "$BUILDDIR"
+cd "$BUILDDIR" || exit
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
-        
+
         if uname -m | grep -q '^i'; then
             if [ -e "$i"/32ignore ]; then
                 echo "package $i is 32 ignored"

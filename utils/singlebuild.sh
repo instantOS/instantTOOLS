@@ -45,7 +45,7 @@ cp -r ~/workspace/extra/"$1"/* . || exit 1
 
 rm -rf src
 rm -rf pkg
-rm *.pkg.tar.*
+rm ./*.pkg.tar.*
 
 makepkg -s . || exit 1
 
@@ -55,7 +55,7 @@ if ls ~/instantbuild/"$1"* &>/dev/null; then
     rm ~/instantbuild/"$1"-*.*
 fi
 
-mv *.pkg.tar.* ~/instantbuild/ || exit 1
+mv ./*.pkg.tar.* ~/instantbuild/ || exit 1
 
 cd || exit 1
 rm -rf .cache/instantos/pkg

@@ -19,12 +19,12 @@ if ! [ -e ~/workspace/"$1" ]; then
     exit 1
 fi
 
-cd ~/workspace/"$1"
+cd ~/workspace/"$1" || exit
 if ! git remote | grep -q instantosbackup; then
     git remote add instantosbackup "https://instantosbackup@bitbucket.org/instantosbackup/$1.git"
 fi
 
-if [ "$2" = -f ]; then
+if [ "$2" = "-f" ]; then
     git push -f instantosbackup --all && echo "force backup finished"
 else
     git push instantosbackup --all && echo "backup finished"
