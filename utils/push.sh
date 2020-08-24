@@ -16,4 +16,4 @@ repo-add instant.db.tar.xz ./*.pkg.tar.xz
 ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
 
 # sync to the server
-rsync -P -z -a --delete ~/instantbuild/ benjamin@packages.instantos.io:/var/www/html/
+rsync -P -z -a --delete ~/instantbuild/ benjamin@packages.instantos.io:/var/www/instantos/
