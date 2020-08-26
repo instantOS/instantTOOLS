@@ -15,5 +15,9 @@ cd ~/instantbuild || exit 1
 repo-add instant.db.tar.xz ./*.pkg.tar.xz
 ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
 
+USERNAME="$(imenu cli -i "username")"
+
+[ -z "$USERNAME" ] && exit
+
 # sync to the server
-rsync -P -z -a --delete ~/instantbuild/ benjamin@packages.instantos.io:/var/www/instantos/
+rsync -P -z -a --delete ~/instantbuild/ "$USERNAME"@packages.instantos.io:/var/www/instantos/
