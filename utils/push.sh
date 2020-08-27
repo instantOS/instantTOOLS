@@ -14,6 +14,9 @@ cd ~/instantbuild || exit 1
 
 repo-add instant.db.tar.xz ./*.pkg.tar.xz
 ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
+[ -e index.html ] && rm index.html
+instantinstall apindex
+apindex .
 
 USERNAME="$(imenu cli -i "username")"
 
