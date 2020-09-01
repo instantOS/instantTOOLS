@@ -36,6 +36,9 @@ build)
 updateaur)
     runscript aurupdate "$2"
     ;;
+release)
+    runscript release
+    ;;
 backup)
     shift 1
     runscript backup $@

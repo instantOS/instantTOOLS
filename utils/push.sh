@@ -5,6 +5,7 @@
 ## uploads files to repo                           ##
 #####################################################
 # clear old database
+
 rm instant.db.*
 rm instant.db
 rm instant.files.*
