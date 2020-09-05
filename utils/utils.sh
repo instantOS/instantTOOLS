@@ -19,7 +19,7 @@ fi
 checkmake() {
     # remove already existing packages
     if ls | grep -q '\.pkg.\.tar\..{1,3}'; then
-        rm *.pkg.tar.*
+        rm ./*.pkg.tar.*
     fi
 
     if makepkg -s . && ls ./*.pkg.tar.xz &>/dev/null; then
@@ -113,7 +113,7 @@ aurinstall() {
     fi
 
     checkmake
-    if ls *.pkg.tar.xz; then
+    if ls ./*.pkg.tar.xz; then
         sudo pacman -U ./*.pkg.tar.xz
     fi
 
@@ -149,16 +149,3 @@ repobuild() {
 
 }
 
-# put a binary from the web in the repo
-        fi
-    fi
-
-    if ! [ -e "$1".pkg.tar.xz ]; then
-        wget -q -O "$1".pkg.tar.xz "$2"
-    fi
-
-    if [ -n "$TEMPBUILD" ]; then
-        unset TEMPBUILD
-        cd ..
-    fi
-}

@@ -30,4 +30,4 @@ then
     ln -s "$TARGET/bin/ibuild" "$TARGET/bin/i" 
 fi
 
-echo "fimished installing instantOS development tools"
+echo "finished installing instantOS development tools"
