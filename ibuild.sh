@@ -10,7 +10,10 @@ if ! [ -e /usr/share/instanttools ]
 then
     if [ -e "$PREFIX/share/instanttools" ]
     then
-        TOOLS="$PREFIX/usr/share/instanttools"
+        TOOLS="$PREFIX/share/instanttools"
+    else
+        echo "ibuild not installed correctly"
+        exit
     fi
 else
     TOOLS="/usr/share/instanttools"
