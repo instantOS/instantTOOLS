@@ -6,59 +6,41 @@
 
 # this script is the main wrapper
 
-runscript() {
-    if [ -e /usr/share/instanttools/"$1".sh ]; then
-        IBUILDSCRIPT="$1"
-        shift 1
-        /usr/share/instanttools/"$IBUILDSCRIPT".sh $@
-    else
-        echo "script $1 not found"
-        exit 1
+if ! [ -e /usr/share/instanttools ]
+then
+    if [ -e "$PREFIX/share/instanttools" ]
+    then
+        TOOLS="$PREFIX/usr/share/instanttools"
     fi
-}
+else
+    TOOLS="/usr/share/instanttools"
+fi
 
-case "$1" in
-fullrepo)
-    runscript directbuild
-    ;;
-push)
-    runscript push
-    ;;
-download)
-    runscript fetch
-    ;;
-install)
-    runscript install "$2"
-    ;;
-build)
-    runscript singlebuild "$2"
-    ;;
-updateaur)
-    runscript aurupdate "$2"
-    ;;
-release)
-    runscript release
-    ;;
-backup)
-    shift 1
-    runscript backup $@
-    ;;
-aur)
-    source /usr/share/instanttools/utils.sh
-    aurinstall "$2" "$3"
-    ;;
-rebuild)
-    if ! imenu -c "this will clear all built packages. Continue"; then
-        exit
+if [ -z "$1" ]
+then
+    SCRIPT="$(ls "$TOOLS/" | grep -o '[^/]*$' | grep -o '^[^.]*' | fzf | head -1)"
+else
+    if [ -e "$TOOLS/$1.sh" ]
+    then
+        SCRIPT="$1"
+    else
+        SLIST="$(ls "$TOOLS/" | grep "^$1")"
+        if [ -n "$SLIST" ]
+        then
+            if wc -l <<< "$SLIST" | grep -o '^1$'
+            then
+                SCRIPT="$(echo "$SLIST" | grep -o '[^/]*$' | grep -o '^[^.]*')"
+            else
+                SCRIPT="$(ls "$TOOLS/" | grep "^$1" | grep -o '[^/]*$' | grep -o '^[^.]*' | fzf | head -1)"
+            fi
+        else
+            echo "no match found for $1"
+            exit
+        fi
     fi
-    cd || exit 1
-    rm -rf stuff/extra
-    rm -rf instantbuild
-    mkdir instantbuild
-    ibuild fullrepo
-    exit
-    ;;
-*)
-    echo "usage: ibuild push/build/download/aur"
-    ;;
-esac
+    shift 1
+fi
+
+[ -z "$SCRIPT" ] && exit
+"$TOOLS/$SCRIPT.sh" "$@"
+

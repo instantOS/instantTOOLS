@@ -2,6 +2,11 @@
 
 # build and install a single instantOS package
 
+if [ -z "$1" ]; then
+    echo "usage: ibuild install packagename"
+    exit
+fi
+
 pushd .
 if ! [ -e ~/workspace/extra ]; then
     mkdir ~/workspace
@@ -11,11 +16,6 @@ if ! [ -e ~/workspace/extra ]; then
 else
     cd ~/workspace/extra || exit
     git pull || exit
-fi
-
-if [ -z "$1" ]; then
-    echo "usage: ibuild install packagename"
-    exit
 fi
 
 if ! [ -e "$1" ]; then

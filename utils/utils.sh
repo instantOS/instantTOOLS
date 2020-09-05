@@ -4,11 +4,6 @@
 ## utilities for building an instantOS repo mirror ##
 #####################################################
 
-THEMES="dracula
-mac
-arc
-manjaro"
-
 # ensure PACKAGER is not empty
 if ! [ -e ~/.makepkg.conf ]; then
     echo 'PACKAGER="paperbenni <paperbenni@gmail.com>"' >~/.makepkg.conf
@@ -53,18 +48,6 @@ bashbuild() {
     checkmake
 
     mv ./*.pkg.tar.xz ~/instantbuild/
-    cd ..
-}
-
-# c programs using instantos theming
-themebuild() {
-    cd "$1" || exit
-    for i in $THEMES; do
-        echo "$i" >/tmp/instanttheme
-        checkmake
-        mv ./*.pkg.tar.xz ~/stuff/extra/build/"$1-$i".pkg.tar.xz
-        buildclean "$1-"
-    done
     cd ..
 }
 
@@ -165,11 +148,6 @@ repobuild() {
 }
 
 # put a binary from the web in the repo
-linkbuild() {
-    if ! pwd | grep -q 'build'; then
-        if [ -e build ]; then
-            cd ~/instantbuild || exit
-            TEMPBUILD="true"
         fi
     fi
 
