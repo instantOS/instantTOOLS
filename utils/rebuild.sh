@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# doc: clear and rebuild the pacman repo
+
 if ! imenu -c "this will clear all built packages. Continue"; then
     exit
 fi

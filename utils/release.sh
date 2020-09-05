@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# doc: release a new stable branch version
+
 echo "releasing new version"
 if ! git fetch origin stable
 then

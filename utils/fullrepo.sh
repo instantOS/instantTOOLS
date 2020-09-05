@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# doc: build a full copy of the pacman repo
+
 echo "building instantOS repository"
 cd || exit
 

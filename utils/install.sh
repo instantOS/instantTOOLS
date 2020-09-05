@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# build and install a single instantOS package
+# doc: build and install a single instantOS package
 
 if [ -z "$1" ]; then
     echo "usage: ibuild install packagename"

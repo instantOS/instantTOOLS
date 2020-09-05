@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# doc: build a single instantos package for the repo
+
 #############################################################
 ## build a single instantOS package and put it in the repo ##
 #############################################################

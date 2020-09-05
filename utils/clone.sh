@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# clone github stuff
+# doc: clone github stuff
 
 if [ -z "$1" ]
 then

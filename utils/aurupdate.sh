@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# doc: update aur package in the repo
+
 if [ -z "$1" ]; then
     echo "usage: ibuild updateaur aur package name"
 fi

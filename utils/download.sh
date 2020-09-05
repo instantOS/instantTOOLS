@@ -1,8 +1,6 @@
 #!/bin/bash
 
-####################################################################
-## get a full local copy of the repo without building it yourself ##
-####################################################################
+# doc: get a copy of the pacman repo
 
 mkdir ~/instantbuild
 

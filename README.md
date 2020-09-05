@@ -6,19 +6,70 @@
 
 --------  
 
-## usage 
 
-Downloads an entire copy of the online version of the repo.  
-` `  ` ibuild fetch `  ` ` 
+build a single instantos package for the repo
 
-Push local changes to server  
-` `  ` ibuild push `  ` ` 
+```sh
+ibuild singlebuild
+```
 
-Build a single package  
-` `  ` ibuild build packagename `  ` ` 
+release a new stable branch version
 
-Build full repo  
-` `  ` ibuild fullrepo `  ` ` 
+```sh
+ibuild release
+```
 
-Build, optionally rename and install an AUR package  
-` `  ` ibuild aur packagename rename `  ` ` 
+back up repo to other git servers in case github goes boom
+
+```sh
+ibuild backup
+```
+
+clear and rebuild the pacman repo
+
+```sh
+ibuild rebuild
+```
+
+update aur package in the repo
+
+```sh
+ibuild aurupdate
+```
+
+clone github stuff
+
+```sh
+ibuild clone
+```
+
+get a copy of the pacman repo
+
+```sh
+ibuild download
+```
+
+build and install a single instantOS package
+
+```sh
+ibuild install
+```
+
+install a single aur package
+
+```sh
+ibuild aur
+```
+
+build a full copy of the pacman repo
+
+```sh
+ibuild fullrepo
+```
+
+upload files to pacman repo
+
+```sh
+ibuild push
+```
+

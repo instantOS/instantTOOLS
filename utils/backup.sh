@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# back up repo to other git servers in case github goes boom
+# doc: back up repo to other git servers in case github goes boom
 
 if [ -z "$1" ]; then
     echo "usage: ibuild backup projectname"

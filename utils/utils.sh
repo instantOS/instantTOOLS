@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# doc: some utilities for ibuild
+
 #####################################################
 ## utilities for building an instantOS repo mirror ##
 #####################################################
