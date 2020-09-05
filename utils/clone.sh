@@ -9,7 +9,7 @@ then
 fi
 
 
-if [ "$1" -eq "$1" ] && [ -n "$2" ]
+if [ "$1" -eq "$1" ] &> /dev/null && [ -n "$2" ]
 then
     GITARGS="--depth=$1"
     shift 1
@@ -30,5 +30,5 @@ then
     GITDEST="$2"
 fi
 
-git clone "$GITARGS" "$GITREPO" "$GITDEST"
+eval "$(echo git clone "$GITARGS" "$GITREPO" "$GITDEST" | sed 's/  */ /g')"
 
