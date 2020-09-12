@@ -17,6 +17,7 @@ fi
 
 if ! grep -q '/' <<< "$1"
 then
+    export GIT_ASKPASS="ibuild"
     if git ls-remote -h "https://github.com/instantOS/$1" 
     then
         GITREPO="https://github.com/instantOS/$1" 
@@ -35,5 +36,6 @@ then
     GITDEST="$2"
 fi
 
-eval "$(echo git clone "$GITARGS" "$GITREPO" "$GITDEST" | sed 's/  */ /g')"
+echo "cloning git repo $GITREPO"
+"$(echo git clone "$GITARGS" "$GITREPO" "$GITDEST" | sed 's/  */ /g')" || exit 1
 

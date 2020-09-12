@@ -25,7 +25,7 @@ sudo chmod 755 $TARGET/bin/ibuild
 sudo cp utils/*.sh $TARGET/share/instanttools/
 sudo chmod 755 $TARGET/share/instanttools/*
 
-if command -v termux-info
+if ! command -v i
 then
     ln -s "$TARGET/bin/ibuild" "$TARGET/bin/i" 
 fi

@@ -8,13 +8,13 @@ then
     exit 1
 fi
 
-cd "workspace"
+cd
+cd workspace
 
 if [ -n "$1" ]
 then
     MATCHES="$(ls | grep "$1")"
 else
-
     MATCHES="$(ls)"
 fi
 
@@ -34,7 +34,8 @@ then
 else
     if [ -n "$1" ]
     then
-        ibuild clone "$1"
+        ibuild clone "$1" && \
+            ibuild workspace "$1" && exit
     fi
 fi
 
