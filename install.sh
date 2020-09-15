@@ -27,7 +27,7 @@ sudo chmod 755 $TARGET/share/instanttools/*
 
 if ! command -v i
 then
-    ln -s "$TARGET/bin/ibuild" "$TARGET/bin/i" 
+    sudo ln -s "$TARGET/bin/ibuild" "$TARGET/bin/i" 
 fi
 
 echo "finished installing instantOS development tools"

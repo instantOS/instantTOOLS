@@ -17,6 +17,9 @@ cd ~/instantbuild || exit 1
 
 repo-add instant.db.tar.xz ./*.pkg.tar.xz
 ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
+
+date > date.txt
+
 [ -e index.html ] && rm index.html
 instantinstall apindex
 apindex .
