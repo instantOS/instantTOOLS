@@ -37,5 +37,5 @@ then
 fi
 
 echo "cloning git repo $GITREPO"
-"$(echo git clone "$GITARGS" "$GITREPO" "$GITDEST" | sed 's/  */ /g')" || exit 1
+eval "$(echo git clone "$GITARGS" "$GITREPO" "$GITDEST" | sed 's/  */ /g')" || exit 1
 
