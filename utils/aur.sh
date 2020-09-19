@@ -1,5 +1,5 @@
 #!/bin/bash
 # doc: install a single aur package
 
-source /usr/share/instanttools/utils.sh
+source /usr/local/share/instanttools/utils.sh
 aurinstall "$1" "$2"

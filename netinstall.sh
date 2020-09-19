@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# clone instantOS dev tools and install them
+
 echo "installing instantOS development tools"
 
+[ -e ~/.cache/instanttools ] && rm -rf ~/.cache/instanttools
 mkdir -p ~/.cache/instanttools
 cd ~/.cache/instanttools || exit 1
 

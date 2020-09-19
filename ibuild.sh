@@ -6,7 +6,7 @@
 
 # this script is the main wrapper
 
-if ! [ -e /usr/share/instanttools ]; then
+if ! [ -e /usr/local/share/instanttools ]; then
     if [ -e "$PREFIX/share/instanttools" ]; then
         TOOLS="$PREFIX/share/instanttools"
     else
@@ -14,7 +14,7 @@ if ! [ -e /usr/share/instanttools ]; then
         exit
     fi
 else
-    TOOLS="/usr/share/instanttools"
+    TOOLS="/usr/local/share/instanttools"
 fi
 
 if [ -z "$1" ]; then

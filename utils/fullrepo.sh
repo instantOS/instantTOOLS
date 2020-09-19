@@ -32,7 +32,7 @@ rm -rf .git
 
 echo "starting instantOS repo build"
 # build functions
-source /usr/share/instanttools/utils.sh
+source /usr/local/share/instanttools/utils.sh
 
 if ! pacman -Qi paperbash &>/dev/null; then
     echo "please install paperbash"
