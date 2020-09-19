@@ -7,6 +7,7 @@ if [ -z "$1" ]; then
     then
         echo "building cache"
         mkdir -p ~/workspace
+        cd ~/workspace || exit 1
         git clone --depth=1 https://github.com/instantOS/extra
     fi
 

@@ -24,7 +24,7 @@ sudo chmod 755 $TARGET/bin/ibuild
 
 sudo cp utils/*.sh $TARGET/share/instanttools/
 
-git log --format="%H" -n 1 | grep -Eo '^.{10}' > /usr/local/share/instanttools/version
+git log --format="%H" -n 1 | grep -Eo '^.{10}' | sudo tee /usr/local/share/instanttools/version
 
 sudo chmod 755 $TARGET/share/instanttools/*
 
