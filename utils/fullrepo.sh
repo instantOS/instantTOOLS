@@ -5,6 +5,26 @@
 echo "building instantOS repository"
 cd || exit
 
+if ! iconf -i builddeps; then
+    sudo pacman -S --needed --noconfirm \
+        wmctrl \
+        xdotool \
+        go \
+        ninja \
+        meson \
+        check \
+        libnotify \
+        tk \
+        vala \
+        gobject-introspection \
+        vte3 \
+        dbus-glib \
+        archlinux-appstream-data \
+        appstream-glib \
+        libindicator-gtk3 \
+        libindicator-gtk2 && iconf -i builddeps 1
+fi
+
 if [ -e instantbuild ]; then
     echo "removing older build files"
     rm -rf instantbuild

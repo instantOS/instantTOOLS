@@ -2,22 +2,16 @@
 
 # install ibuild dependencies
 
-echo "installing dependencies to build instantos packages"
-sudo pacman -S --needed \
-    wmctrl \
-    xdotool \
-    go \
-    ninja \
-    meson \
-    check \
-    rxvt-unicode \
-    libnotify \
-    tk \
-    vala \
-    gobject-introspection \
-    vte3 \
-    dbus-glib \
-    archlinux-appstream-data \
-    appstream-glib \
-    libindicator-gtk3 \
-    libindicator-gtk2
+if ! command -v pacman; then
+    echo "warning, not on an Arch based system, some features will not work"
+    exit
+fi
+
+echo "instanlling instanttools dependencies"
+
+sudo pacman -S --needed --noconfirm \
+    git \
+    curl \
+    wget \
+    fzf
+
