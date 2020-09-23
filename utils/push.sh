@@ -15,7 +15,7 @@ rm instant.files
 
 cd ~/instantbuild || exit 1
 
-repo-add instant.db.tar.xz ./*.pkg.tar.xz
+repo-add instant.db.tar.xz ./*.pkg.tar.*
 ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
 
 date > date.txt

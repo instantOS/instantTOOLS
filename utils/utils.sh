@@ -37,7 +37,7 @@ buildclean() {
         rm -rf src
         rm -rf pkg
         rm -rf "$1*"
-        rm -rf "*.pkg.tar.xz"
+        rm -rf "*.pkg.tar.*"
     fi
 }
 
@@ -49,7 +49,7 @@ bashbuild() {
 
     checkmake
 
-    mv ./*.pkg.tar.xz ~/instantbuild/
+    mv ./*.pkg.tar.* ~/instantbuild/
     cd ..
 }
 
@@ -61,7 +61,7 @@ aurbuild() {
         AURNAME="$1"
     fi
 
-    if ls ~/instantbuild/"$AURNAME"*.pkg.tar.xz; then
+    if ls ~/instantbuild/"$AURNAME"*.pkg.tar.*; then
         echo "package $AURNAME already exists"
         return
     fi
@@ -87,7 +87,7 @@ aurbuild() {
         exit
     }
 
-    mv ~/.cache/tmpaur/"$1"/*.pkg.tar.xz ~/instantbuild/
+    mv ~/.cache/tmpaur/"$1"/*.pkg.tar.* ~/instantbuild/
 
     cd ..
     rm -rf "$1"
@@ -113,8 +113,8 @@ aurinstall() {
     fi
 
     checkmake
-    if ls ./*.pkg.tar.xz; then
-        sudo pacman -U ./*.pkg.tar.xz
+    if ls ./*.pkg.tar.*; then
+        sudo pacman -U ./*.pkg.tar.*
     fi
 
     cd ..
@@ -144,7 +144,7 @@ repobuild() {
     echo "dowloading package https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
     wget "https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
 
-    ls ./*.pkg.tar.xz &>/dev/null && mv ./*.pkg.tar.xz ~/instantbuild
+    ls ./*.pkg.tar.* &>/dev/null && mv ./*.pkg.tar.* ~/instantbuild
     ls ./*.pkg.tar.zst &>/dev/null && mv ./*.pkg.tar.zst ~/instantbuild
 
 }

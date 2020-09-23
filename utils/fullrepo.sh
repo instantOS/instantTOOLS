@@ -28,8 +28,10 @@ fi
 if [ -e instantbuild ]; then
     echo "removing older build files"
     rm -rf instantbuild
-    mkdir ~/instantbuild
 fi
+
+mkdir ~/instantbuild
+
 # detect architecture
 UNAME="$(uname -m)"
 if grep -q 'x8' <<<"$UNAME"; then
