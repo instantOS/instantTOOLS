@@ -22,7 +22,7 @@ checkmake() {
         rm ./*.pkg.tar.*
     fi
 
-    if makepkg -s . && ls ./*.pkg.tar.xz &>/dev/null; then
+    if makepkg -s . && ls ./*.pkg.tar.* &>/dev/null; then
         echo "build successful"
     else
         echo "build failed at $(pwd)"
