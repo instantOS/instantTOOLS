@@ -11,6 +11,7 @@ fi
 
 git checkout stable || exit 1
 git merge master || exit 1
-git push || exit 1
+git push origin stable || exit 1
+git checkout master || exit 1
 
 echo "updated stable branch"
