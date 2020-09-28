@@ -9,7 +9,18 @@ then
     exit
 fi
 
-git checkout stable || exit 1
+if git diff | grep -q '...'
+then
+    echo "please commit changes before proceeding"
+fi
+
+if ! git branch | grep -q stable
+then
+    git checkout -b stable || exit 1
+else
+    git checkout stable || exit 1
+fi
+
 git merge master || exit 1
 git push origin stable || exit 1
 git checkout master || exit 1
