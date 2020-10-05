@@ -16,6 +16,7 @@ else
     TARGET="/usr/local"
 fi
 
+echo "installing to $TARGET"
 sudo cp ibuild.sh $TARGET/bin/ibuild
 sudo chmod 755 $TARGET/bin/ibuild
 
@@ -24,8 +25,6 @@ sudo chmod 755 $TARGET/bin/ibuild
 
 sudo cp utils/*.sh $TARGET/share/instanttools/
 
-git log --format="%H" -n 1 | grep -Eo '^.{10}' | sudo tee /usr/local/share/instanttools/version
-
 sudo chmod 755 $TARGET/share/instanttools/*
 
 if ! command -v i
@@ -33,4 +32,5 @@ then
     sudo ln -s "$TARGET/bin/ibuild" "$TARGET/bin/i" 
 fi
 
+git log --format="%H" -n 1 | grep -Eo '^.{10}' | sudo tee /usr/local/share/instanttools/version
 echo "finished installing instantOS development tools"
