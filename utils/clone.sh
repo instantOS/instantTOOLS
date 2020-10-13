@@ -9,7 +9,7 @@ fi
 
 if [ -z "$1" ]; then
     GITREPO="$(
-        curl -s "https://api.github.com/users/$GHUSER/repos?per_page=100" | grep -E -o 'git@[^"]*' | grep -o ':.*' | grep -E -o '[^:]*' | fzf
+        curl -s "https://api.github.com/users/instantos/repos?per_page=100" | grep -E -o 'git@[^"]*' | grep -o ':.*' | grep -E -o '[^:]*' | fzf
     )"
     if [ -z "$REPO" ]; then
         echo "usage: i c repo"
