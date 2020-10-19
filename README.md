@@ -1,7 +1,7 @@
 <div align="center">
     <h1>instantTOOLS</h1>
     <p>Development tools for instantOS</p>
-    <img width="300" height="300" src="https://media.githubusercontent.com/media/instantOS/instantLOGO/master/png/tools.png">
+    <img width="300" height="300" src="https://raw.githubusercontent.com/instantOS/instantLOGO/master/png/tools.png">
 </div>
 
 --------  
