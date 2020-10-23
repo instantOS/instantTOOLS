@@ -2,26 +2,19 @@
 
 # doc: get a copy of the pacman repo
 
-mkdir ~/instantbuild
-
-echo "pulling full repo"
-
-if ! uname -m | grep -q '^i'; then
-    LINK="instantos.surge.sh"
-else
-    mkdir -p ~/instantbuild
-    echo "fetching 32 bit repo"
-    LINK="instantos32.surge.sh"
+if [ -e ~/instantbuild/instant.db ]; then
+    if ! imenu cli -c "already existing, overwrite?"; then
+        exit
+    fi
+    rm -rf ~/instantbuild/
 fi
 
-curl -s "$LINK" | grep -o '<a href=".*">' | grep -o '".*"' | grep -Eo '[^"]{3,}' >files.txt
+mkdir ~/instantbuild
 
-for i in $(cat files.txt); do
-    echo "downloading file $i"
-    wget -q http://$LINK/$i
-done
+instantinstall rsync
 
-wget -r http://$LINK
+USERNAME="$(imenu cli -i 'username')"
+[ -z "$USERNAME" ] && exit
 
-rm files.txt
-echo "done"
+rsync -Pza --delete "$USERNAME"@packages.instantos.io:/var/www/instantos/ ~/instantbuild/
+echo "finished pulling repo"
