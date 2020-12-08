@@ -8,4 +8,4 @@ TESTBRANCH="$(git ls-remote https://github.com/instantos/instantarch | grep 'ref
 curl -s https://raw.githubusercontent.com/instantOS/instantARCH/"$TESTBRANCH"/archinstall.sh >instantarch.sh
 
 chmod +x ./instantarch.sh
-sudo ./instantarch.sh test
+sudo ./instantarch.sh test "$TESTBRANCH"

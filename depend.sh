@@ -9,7 +9,7 @@ fi
 
 echo "instanlling instanttools dependencies"
 
-sudo pacman -S --needed --noconfirm \
+sudo pacman -Sy --needed --noconfirm \
     git \
     curl \
     wget \
