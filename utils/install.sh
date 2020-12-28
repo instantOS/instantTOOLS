@@ -3,8 +3,7 @@
 # doc: build and install a single instantOS package
 
 if [ -z "$1" ]; then
-    if ! [ -e ~/workspace/extra ]
-    then
+    if ! [ -e ~/workspace/extra ]; then
         echo "building cache"
         mkdir -p ~/workspace
         cd ~/workspace || exit 1
@@ -13,19 +12,16 @@ if [ -z "$1" ]; then
 
     cd ~/workspace/extra || exit 1
     PACKAGELIST=""
-    for i in ./*
-    do
-        if [ -e "$i"/PKGBUILD ]
-        then
-            PACKAGENAME="$(grep -o '[^./]*' <<< "$i")"
+    for i in ./*; do
+        if [ -e "$i"/PKGBUILD ]; then
+            PACKAGENAME="$(grep -o '[^./]*' <<<"$i")"
             PACKAGELIST="$PACKAGELIST
 $PACKAGENAME"
         fi
     done
-    PACKAGELIST="$(grep '..'<<< "$PACKAGELIST")"
-    TARGET="$(fzf <<< "$PACKAGELIST")"
-    if [ -z "$TARGET" ] || ! [ -e ~/workspace/extra/"$TARGET"/PKGBUILD ]
-    then
+    PACKAGELIST="$(grep '..' <<<"$PACKAGELIST")"
+    TARGET="$(fzf <<<"$PACKAGELIST")"
+    if [ -z "$TARGET" ] || ! [ -e ~/workspace/extra/"$TARGET"/PKGBUILD ]; then
         echo "usage: ibuild install packagename"
     else
         ibuild install "$TARGET"

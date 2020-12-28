@@ -148,4 +148,3 @@ repobuild() {
     ls ./*.pkg.tar.zst &>/dev/null && mv ./*.pkg.tar.zst ~/instantbuild
 
 }
-
