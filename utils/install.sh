@@ -2,15 +2,25 @@
 
 # doc: build and install a single instantOS package
 
-if [ -z "$1" ]; then
-    if ! [ -e ~/workspace/extra ]; then
-        echo "building cache"
-        mkdir -p ~/workspace
-        cd ~/workspace || exit 1
-        git clone --depth=1 https://github.com/instantOS/extra
-    fi
+pushd .
+if ! [ -e ~/.config/ibuild/extra ]; then
+    echo "building cache"
+    mkdir -p ~/.config/ibuild/
+    cd ~/.config/ibuild || exit 1
+    git clone --depth=3 https://github.com/instantOS/extra
+fi
+cd ~/.config/ibuild/extra || exit 1
+if ! git pull; then
+    git stash
+    pgrep instantwm && {
+        notify-send "stashed local changes"
+        echo "stashing local changes"
+    }
 
-    cd ~/workspace/extra || exit 1
+    git pull || exit 1
+fi
+
+if [ -z "$1" ]; then
     PACKAGELIST=""
     for i in ./*; do
         if [ -e "$i"/PKGBUILD ]; then
@@ -21,32 +31,22 @@ $PACKAGENAME"
     done
     PACKAGELIST="$(grep '..' <<<"$PACKAGELIST")"
     TARGET="$(fzf <<<"$PACKAGELIST")"
-    if [ -z "$TARGET" ] || ! [ -e ~/workspace/extra/"$TARGET"/PKGBUILD ]; then
+    if [ -z "$TARGET" ] || ! [ -e ./"$TARGET"/PKGBUILD ]; then
         echo "usage: ibuild install packagename"
     else
         ibuild install "$TARGET"
     fi
-
     exit
 fi
 
-pushd .
-if ! [ -e ~/workspace/extra ]; then
-    mkdir ~/workspace
-    cd ~/workspace || exit
-    git clone --depth=2 https://github.com/instantOS/extra
-    cd extra || exit
-else
-    cd ~/workspace/extra || exit
-    git pull || exit
-fi
-
-if ! [ -e "$1" ]; then
+if ! [ -e "$1"/PKGBUILD ]; then
     echo "package $1 not found"
-    echo "run ibuild install to get a list of available packages"
+    echo "run 
+    ibuild install 
+to get a list of available packages"
     exit
 fi
 
 cd "$1" || exit
 makepkg -si
-popd || exit
+popd
