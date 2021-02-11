@@ -32,17 +32,43 @@ fi
 echo "Backing up repos:
 $REPOLIST"
 
+ERRORNAME="$(date).txt"
+
+export ERRORNAME
+repoerror() {
+    echo "$p" >>../error/"$ERRORNAME"
+    echo "error while processing $p"
+    exit 1
+}
+
 while read -r p; do
     echo "processing repo $p"
-    if [ -e "./$p" ]; then
-        echo "updating repo $p"
-        cd "$p" || exit 1
-        git fetch --all || exit 1
-        git pull --all || exit 1
-        cd .. || exit 1
-    else
-        git clone https://github.com/instantOS/"$p" || exit 1
-    fi
+    {
+        if [ -e "./$p" ]; then
+            echo "updating repo $p"
+            if [ -e ./error/"$ERRORNAME" ]; then
+                echo "detected error"
+                cat ./error/"$ERRORNAME"
+                exit 1
+            fi
+            cd "$p" || repoerror
+            git fetch --all || repoerror
+            git pull --all || repoerror
+            cd .. || repoerror
+        else
+            git clone https://github.com/instantOS/"$p" || exit 1
+        fi
+    } &
 done <<<"$REPOLIST"
 
 echo "finished instantOS local backup of $REPOCOUNT repos"
+
+while pgrep git &> /dev/null
+do
+    sleep 1
+done
+
+if [ -e error.txt ]; then
+    echo "errors: "
+    cat error.txt
+fi
