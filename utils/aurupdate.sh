@@ -46,4 +46,3 @@ makepkg --printsrcinfo | tee .SRCINFO
 git add .
 git commit -m "sync PKGBUILD version to upstream"
 git push
-
