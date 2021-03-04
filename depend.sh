@@ -9,9 +9,13 @@ fi
 
 echo "instanlling instanttools dependencies"
 
-sudo pacman -Sy --needed --noconfirm \
-    git \
-    curl \
-    wget \
-    fzf
-
+if command -v instantinstall; then
+    # do fancy instantOS sh*t if on instantos
+    instantinstall git curl wget fzf
+else
+    sudo pacman -Sy --needed --noconfirm \
+        git \
+        curl \
+        wget \
+        fzf
+fi
