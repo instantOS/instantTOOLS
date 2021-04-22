@@ -14,6 +14,8 @@ if ! [ -e ~/workspace/extra ]; then
     git clone --depth=1 https://github.com/instantos/extra
 fi
 
+source /usr/local/share/instanttools/utils.sh || exit 1
+
 cd ~/workspace/extra || exit 1
 git pull || exit
 
@@ -37,4 +39,3 @@ else
     aurbuild "$AURLINE"
 fi
 
-source /usr/local/share/instanttools/utils.sh
