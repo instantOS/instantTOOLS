@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# doc: update aur package in the repo
+# doc: upload new version of instantOS package to AUR
+# currently unmaintained
 
 if [ -z "$1" ]; then
     echo "usage: ibuild updateaur aur package name"
