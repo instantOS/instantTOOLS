@@ -8,13 +8,14 @@ if [ "$1" -eq "$1" ] &>/dev/null; then
 fi
 
 if [ -z "$1" ]; then
-    GITREPO="$(
-        curl -s "https://api.github.com/users/instantos/repos?per_page=100" | grep -E -o 'git@[^"]*' | grep -o ':.*' | grep -E -o '[^:]*' | fzf
+    REPO="$(
+        curl -s "https://api.github.com/users/instantos/repos?per_page=100" | grep -E -o 'git@[^"]*' | sed 's/^.*\///;s/\.git$//' | fzf
     )"
     if [ -z "$REPO" ]; then
         echo "usage: i c repo"
         exit
     fi
+    GITREPO="https://github.com/instantOS/$REPO"
 else
     if ! grep -q '/' <<<"$1"; then
         export GIT_ASKPASS="ibuild"
