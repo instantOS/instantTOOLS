@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# doc: build and install a single instantOS package
+# doc: test an instantarch branch
 
 TESTBRANCH="$(git ls-remote https://github.com/instantos/instantarch | grep 'refs/heads' | grep -o 'refs/.*' | sed 's/^refs\/.*\///g' | imenu -l)"
 [ -z "$TESTBRANCH" ] && exit 1
