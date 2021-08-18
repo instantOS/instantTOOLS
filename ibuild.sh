@@ -20,6 +20,16 @@ fi
 if [ -z "$1" ]; then
     SCRIPT="$(ls "$TOOLS/" | grep -o '[^/]*$' | grep -o '^[^.]*' | fzf | head -1)"
 else
+
+    if [ "$1" = '--help' ] || [ "$1" = "-h" ]; then
+        cd "$TOOLS" || exit 1
+        echo 'usage: ibuild command [options]'
+        echo 'commands:'
+        echo ''
+        cat "$TOOLS/helpcache.txt"
+        exit
+    fi
+
     if [ -e "$TOOLS/$1.sh" ]; then
         SCRIPT="$1"
     else
