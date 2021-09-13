@@ -6,7 +6,7 @@ if ! [ -e /usr/local/share/instanttools/version ]; then
     echo "updating instanttools"
 else
     echo "checking for updates"
-    NEWID="$(git ls-remote https://github.com/instantOS/instantTOOLS refs/heads/master | grep -Eo '^.{10}')"
+    NEWID="$(git ls-remote https://github.com/instantOS/instantTOOLS refs/heads/main | grep -Eo '^.{10}')"
 
     if [ -z "$NEWID" ]; then
         echo "couldn't reach github, please check your internet access"
@@ -20,4 +20,4 @@ else
     fi
 fi
 
-curl -s https://raw.githubusercontent.com/instantOS/instantTOOLS/master/netinstall.sh | bash
+curl -s https://raw.githubusercontent.com/instantOS/instantTOOLS/main/netinstall.sh | bash
