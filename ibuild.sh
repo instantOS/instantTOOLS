@@ -49,4 +49,7 @@ else
 fi
 
 [ -z "$SCRIPT" ] && exit
+if command -v idate &>/dev/null && idate w ibuildupdate; then
+    ibuild upgrade
+fi
 "$TOOLS/$SCRIPT.sh" "$@"
