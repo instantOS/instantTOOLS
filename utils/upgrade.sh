@@ -14,8 +14,10 @@ else
     else
         OLDID="$(cat /usr/local/share/instanttools/version)"
         if [ "$OLDID" = "$NEWID" ]; then
-            echo "no new update found"
+            echo "instantTOOLS already up to date"
             exit
+        else
+            echo "$NEWID" | sudo tee /usr/local/share/instanttools/version
         fi
     fi
 fi
