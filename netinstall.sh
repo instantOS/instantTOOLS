@@ -8,6 +8,10 @@ echo "installing instantOS development tools"
 mkdir -p ~/.cache/instanttools
 cd ~/.cache/instanttools || exit 1
 
+command -v git &> /dev/null || {
+    pacman -Sy git --noconfirm
+}
+
 git clone --depth=1 https://github.com/instantOS/instantTOOLS
 cd instantTOOLS || exit 1
 chmod +x ./*.sh
