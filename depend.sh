@@ -17,5 +17,6 @@ else
         git \
         curl \
         wget \
+        ripgrep \
         fzf
 fi
