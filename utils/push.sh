@@ -34,3 +34,4 @@ if [ -z "$1" ]; then
 else
     rsync -P -z -a --delete ~/instantbuild/ "$USERNAME"@packages.instantos.io:/var/www/instantos/"$1"
 fi
+

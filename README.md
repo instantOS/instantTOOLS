@@ -4,6 +4,13 @@
     <img width="300" height="300" src="https://raw.githubusercontent.com/instantOS/instantLOGO/main/png/tools.png">
 </div>
 
+
+## Installation
+
+```sh
+curl -s https://raw.githubusercontent.com/instantOS/instantTOOLS/main/netinstall.sh | bash
+```
+
 --------  
 
 
@@ -72,4 +79,11 @@ upload files to pacman repo
 ```sh
 ibuild push
 ```
+
+## Future feature ideas
+
+- rework some utils with ansible
+- add web3 repo storage upload util
+
+
 

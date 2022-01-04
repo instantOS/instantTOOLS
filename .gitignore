@@ -1,3 +1,4 @@
 *pkg.tar.xz
 *pkg.tar.gz
 *tags
+./helpers/web3/node_modules/*
