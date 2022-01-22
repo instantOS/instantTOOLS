@@ -19,7 +19,7 @@ if [ -z "$1" ]; then
 else
     if ! grep -q '/' <<<"$1"; then
         export GIT_ASKPASS="ibuild"
-        if git ls-remote -h "https://github.com/instantOS/$1"; then
+        if git ls-remote -h "https://github.com/instantOS/$1" &> /dev/null; then
             GITREPO="https://github.com/instantOS/$1"
         else
             GITREPO="https://github.com/instantOS/instant$1"
@@ -35,5 +35,15 @@ else
     fi
 fi
 
+if [ -e ~/.ssh/id_rsa.pub ]; then
+    if [ "$(sha256sum ~/.ssh/id_rsa.pub | grep -o '^[^ ]*')" = "cd60a9c6e385bd05785969f375177daef8d75530350b25555c43d54a1f9b0169" ]; then
+        echo switching git to ssh
+        GITREPO="$(
+            echo "$GITREPO" | sed 's~^https://~git@~g' | sed "s~github.com/~github.com:~g"
+        )"
+    fi
+fi
+
 echo "cloning git repo $GITREPO"
+
 eval "$(echo git clone "$GITARGS" "$GITREPO" "$GITDEST" | sed 's/  */ /g')" || exit 1
