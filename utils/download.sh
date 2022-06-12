@@ -16,5 +16,5 @@ instantinstall rsync
 USERNAME="$(imenu cli -i 'username')"
 [ -z "$USERNAME" ] && exit
 
-rsync -Pza --delete "$USERNAME"@packages.instantos.io:/var/www/instantos/ ~/instantbuild/
+rsync -Pza --delete "$USERNAME"@packages.instantos.io:/var/www/html/ ~/instantbuild/
 echo "finished pulling repo"
