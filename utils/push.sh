@@ -30,8 +30,8 @@ USERNAME="$(imenu cli -i "username")"
 
 # sync to the server
 if [ -z "$1" ]; then
-    rsync -P -z -a --delete ~/instantbuild/ "$USERNAME"@packages.instantos.io:/var/www/instantos/
+    rsync -P -z -a --delete ~/instantbuild/ "$USERNAME"@packages.instantos.io:/var/www/html/
 else
-    rsync -P -z -a --delete ~/instantbuild/ "$USERNAME"@packages.instantos.io:/var/www/instantos/"$1"
+    rsync -P -z -a --delete ~/instantbuild/ "$USERNAME"@packages.instantos.io:/var/www/html/"$1"
 fi
 
