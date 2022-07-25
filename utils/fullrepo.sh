@@ -5,6 +5,9 @@
 echo "building instantOS pacman repository"
 cd || exit 1
 
+# exit when a command fails
+set -eo pipefail
+
 sudo pacman -S --needed --noconfirm \
     wmctrl \
     xdotool \
@@ -18,8 +21,9 @@ sudo pacman -S --needed --noconfirm \
     gobject-introspection \
     vte3 \
     dbus-glib \
-    archlinux-appstream-data \
     appstream-glib \
+    archlinux-appstream-data-pamac \
+    libpamac-full \
     libindicator-gtk3 \
     libindicator-gtk2
 
