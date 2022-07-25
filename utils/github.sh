@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# doc: choose instantOS repo from list of repos to open in browser
+
 source /usr/share/paperbash/import.sh
 pb git
 

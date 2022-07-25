@@ -1,5 +1,5 @@
 #!/bin/bash
 
-# doc: upload files to pacman repo
+# doc: display instantWM session log
 
 tail -f ~/.local/share/instantos.log

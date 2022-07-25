@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # doc: build a full copy of the pacman repo
+
 echo 'ibuild help'
 echo 'usage: ibuild command'
 echo 'list of commands'

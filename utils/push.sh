@@ -6,6 +6,7 @@
 ## script to run after building instantos packages ##
 ## uploads files to repo                           ##
 #####################################################
+
 # clear old database
 
 rm instant.db.*

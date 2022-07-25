@@ -16,7 +16,7 @@ if ! [ -e ~/.ipfs ]; then
     if pgrep Xorg; then
         ipfs init
     else
-        # better not risk getting accused of port scanning
+        # some vps providers flag any ipfs device that doesn't do this as port scanning
         ipfs init --profile server
     fi
 fi

@@ -2,28 +2,26 @@
 
 # doc: build a full copy of the pacman repo
 
-echo "building instantOS repository"
-cd || exit
+echo "building instantOS pacman repository"
+cd || exit 1
 
-if ! iconf -i builddeps; then
-    sudo pacman -S --needed --noconfirm \
-        wmctrl \
-        xdotool \
-        go \
-        ninja \
-        meson \
-        check \
-        libnotify \
-        tk \
-        vala \
-        gobject-introspection \
-        vte3 \
-        dbus-glib \
-        archlinux-appstream-data \
-        appstream-glib \
-        libindicator-gtk3 \
-        libindicator-gtk2 && iconf -i builddeps 1
-fi
+sudo pacman -S --needed --noconfirm \
+    wmctrl \
+    xdotool \
+    go \
+    ninja \
+    meson \
+    check \
+    libnotify \
+    tk \
+    vala \
+    gobject-introspection \
+    vte3 \
+    dbus-glib \
+    archlinux-appstream-data \
+    appstream-glib \
+    libindicator-gtk3 \
+    libindicator-gtk2
 
 if [ -e instantbuild ]; then
     echo "removing older build files"
@@ -44,7 +42,7 @@ cd || exit
 mkdir stuff &>/dev/null
 cd stuff || exit
 
-echo "removing old ones"
+echo "removing old extra repo"
 [ -e extra ] && rm -rf extra
 
 cd ~/stuff || exit
@@ -56,19 +54,9 @@ echo "starting instantOS repo build"
 # build functions
 source /usr/local/share/instanttools/utils.sh
 
-if ! pacman -Qi paperbash &>/dev/null; then
-    echo "please install paperbash"
-    exit
-fi
+instantinstall paperbash || exit 1
 
 BUILDDIR="$(pwd)"
-
-# packages brought over from manjaro
-if [ -e manjaropackages ]; then
-    for i in $(cat manjaropackages); do
-        repobuild "$i"
-    done
-fi
 
 if [ -e aurpackages ]; then
     # aur packages#
@@ -90,7 +78,7 @@ for i in ./*; do
 
         if uname -m | grep -q '^i'; then
             if [ -e "$i"/32ignore ]; then
-                echo "package $i is 32 ignored"
+                echo "package $i is ignored on 32bit systems"
                 rm /tmp/pkgignore
                 continue
             fi
@@ -101,6 +89,7 @@ for i in ./*; do
             rm /tmp/pkgignore
             continue
         fi
+
         echo "building $i"
         if ! bashbuild ${i#./}; then
             echo "package $i build failed, exiting"
@@ -109,3 +98,4 @@ for i in ./*; do
         echo "skipping folder $i, no PKGFILE found"
     fi
 done
+
