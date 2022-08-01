@@ -23,7 +23,7 @@ sudo pacman -S --needed --noconfirm \
     dbus-glib \
     appstream-glib \
     archlinux-appstream-data-pamac \
-    libpamac-full \
+    libpamac-nosnap \
     libindicator-gtk3 \
     libindicator-gtk2
 
@@ -43,7 +43,7 @@ elif grep -q '^i' <<<"$UNAME"; then
 fi
 
 cd || exit
-mkdir stuff &>/dev/null
+mkdir stuff || echo "stuff existing" &>/dev/null
 cd stuff || exit
 
 echo "removing old extra repo"
