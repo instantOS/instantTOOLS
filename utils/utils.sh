@@ -7,27 +7,99 @@
 #####################################################
 
 # ensure PACKAGER is not empty
-if ! [ -e ~/.makepkg.conf ]; then
-    echo 'PACKAGER="paperbenni <paperbenni@gmail.com>"' >~/.makepkg.conf
-else
-    if ! grep -iq "PACKAGER" ~/.makepkg.conf; then
-        echo 'PACKAGER="paperbenni <paperbenni@gmail.com>"' >>~/.makepkg.conf
-    fi
+if ! [ -e ~/.makepkg.conf ] || ! grep -iq "PACKAGER" ~/.makepkg.conf; then
+    echo 'please add a PACKAGER section in ~/.makepkg.conf'
+    echo 'example:'
+    echo 'PACKAGER="paperbenni <paperbenni@gmail.com>"'
+    exit
 fi
 
-# exit if failed build detected
-checkmake() {
-    # remove already existing packages
-    if ls | grep -q '\.pkg.\.tar\..{1,3}'; then
-        rm ./*.pkg.tar.*
+# install repo build dependencies
+installbuilddeps() {
+    sudo pacman -S --needed --noconfirm \
+        wmctrl \
+        xdotool \
+        go \
+        ninja \
+        meson \
+        check \
+        libnotify \
+        paperbash \
+        tk \
+        vala \
+        gobject-introspection \
+        vte3 \
+        dbus-glib \
+        appstream-glib \
+        archlinux-appstream-data-pamac \
+        libpamac-nosnap \
+        libindicator-gtk3 \
+        libindicator-gtk2
+
+}
+
+# check if directory $1 contains any valid pacman packages
+checkpkgs() {
+    if [ -e "$1" ]; then
+        for i in "$1"/*.pkg.tar.*; do
+            if pacman -Up "$i"; then
+                return 0
+            fi
+        done
+    fi
+    return 1
+}
+
+checkaur() {
+    if curl -s "https://aur.archlinux.org/packages/$1" | grep -iq 'Git clone URL'; then
+        return 0
+    fi
+    return 1
+}
+
+# buildpackage packagename targetname
+# targetname can be different, for example build yay-git as a package named yay
+buildpackage() {
+    checkpkgs "$CACHEDIR/$1" && echo "valid pacman file for $1 already built" && return
+
+    if {
+        [ -n "$ARCH32" ] && [ -e "$1/32ignore" ]
+    } || [ -e "$1"/ignore ] || [ -e /tmp/pkgignore ]; then
+        echo "ignoring $1 on 32 bit"
+        echo "package $1 is ignored"
+        rm /tmp/pkgignore
+        return
     fi
 
-    if makepkg -s . && ls ./*.pkg.tar.* &>/dev/null; then
-        echo "build successful"
+    if [ -e ./"$1"/PKGBUILD ]; then
+        cp -r "$1" "$CACHEDIR/"
     else
-        echo "build failed at $(pwd)"
-        exit 1
+        if checkaur "$1"; then
+            git clone --depth=1 "https://aur.archlinux.org/$1.git" "$CACHEDIR/$1"
+        else
+            echo "$1 not found in AUR or instantos pkgbuilds"
+            return 1
+        fi
     fi
+
+    pushd "$CACHEDIR/$1" || exit 1
+
+    # rename package to $2 if supplied
+    if [ -n "$2" ]; then
+        sed -i 's/^pkgname=.*/pkgname='"$2"'/g' PKGBUILD
+    fi
+
+    # force compatibility
+    sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
+    if [ -n "$ARCH32" ]; then
+        # disable ninja testing
+        sed -i "s/.*ninja -C build test.*/echo test/g" PKGBUILD
+        sed -i 's/{,\.sig}//g' PKGBUILD
+    fi
+
+    makepkg -s . || return 1
+    checkpkgs . || return 1
+    popd || exit 1
 
 }
 
@@ -39,18 +111,6 @@ buildclean() {
         rm -rf "$1*"
         rm -rf "*.pkg.tar.*"
     fi
-}
-
-# build a simple bash script package
-bashbuild() {
-    echo "bashbuilding $1"
-    [ -e "$1" ] || return
-    cd "$1" || exit
-
-    checkmake
-
-    mv ./*.pkg.tar.* ~/instantbuild/
-    cd ..
 }
 
 # build a program from the AUR
@@ -74,14 +134,6 @@ aurbuild() {
 
     sed -i 's/^pkgname=.*/pkgname='"$AURNAME"'/g' PKGBUILD
 
-    # force compatibility
-    # disable ninja testing
-    sed -i "s/^arch=.*/arch=('any')/g" PKGBUILD
-    if uname -m | grep -q '^i'; then
-        sed -i "s/.*ninja -C build test.*/echo test/g" PKGBUILD
-        sed -i 's/{,\.sig}//g' PKGBUILD
-    fi
-
     checkmake || {
         echo "checkmake failed"
         exit
@@ -94,7 +146,7 @@ aurbuild() {
 }
 
 aurinstall() {
-    if ! curl -s "https://aur.archlinux.org/packages/$1" | grep -iq 'Git clone URL'; then
+    if ! checkaur "$1"; then
         echo "$1 is not an aur package"
     fi
     pushd .
@@ -120,31 +172,4 @@ aurinstall() {
     cd ..
     rm -rf "$1"
     popd || exit
-}
-
-# download package directly from manjaro-repo
-repobuild() {
-    if [ -n "$2" ]; then
-        MREPO="$1"
-        echo "custom repo $MREPO"
-        shift 1
-        MPACKAGE="$1"
-    else
-        if echo "$1" | grep -q ':'; then
-            MREPO="$(echo "$1" | grep -o '^[^:]*')"
-            MPACKAGE="$(echo "$1" | grep -o '[^:]*$')"
-        else
-            MREPO="extra"
-            MPACKAGE="$1"
-        fi
-    fi
-
-    curl -s https://mirror.alpix.eu/manjaro/stable/"$MREPO"/x86_64/ |
-        grep ">$MPACKAGE" | grep -o '>.*<' | grep -o '[^<>]*' | sort | head -1 >/tmp/instantrepo
-    echo "dowloading package https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
-    wget "https://mirror.alpix.eu/manjaro/stable/$MREPO/x86_64/$(cat /tmp/instantrepo)"
-
-    ls ./*.pkg.tar.* &>/dev/null && mv ./*.pkg.tar.* ~/instantbuild
-    ls ./*.pkg.tar.zst &>/dev/null && mv ./*.pkg.tar.zst ~/instantbuild
-
 }
