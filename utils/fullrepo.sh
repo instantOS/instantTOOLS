@@ -3,6 +3,7 @@
 # doc: build a full copy of the pacman repo
 
 echo "building instantOS pacman repository"
+
 # exit when a command fails
 set -eo pipefail
 
@@ -24,6 +25,7 @@ if [ -e instantbuild ]; then
 fi
 
 CACHEDIR="$HOME/instantbuildcache/$(date '+%y/%m/%d')"
+export CACHEDIR
 
 mkdir -p "$CACHEDIR" || echo 'existing build cache found'
 mkdir ~/instantbuild || echo 'existing build directory found'
@@ -34,17 +36,18 @@ if grep -q 'x8' <<<"$UNAME"; then
     echo "detected 64 bit build"
 elif grep -q '^i' <<<"$UNAME"; then
     echo "detected 32 bit build"
-    ARCH32='32'
+    export ARCH32='32'
 else
     echo 'architecture is not supported, support should be easy to add though,
 feel free to send a PR to instanttools'
     exit
 fi
 
-mkdir ~/stuff || echo "stuff existing" &>/dev/null
-cd ~/stuff
+cd
+mkdir stuff || echo "stuff existing" &>/dev/null
+cd stuff
 
-echo "removing old extra repo"
+echo "removing old pkgbuild repo"
 [ -e extra ] && rm -rf extra
 
 git clone --depth=1 https://github.com/instantos/extra.git
@@ -56,20 +59,23 @@ echo "starting instantOS repo build"
 BUILDDIR="$(pwd)"
 
 if [ -e aurpackages ]; then
-    # aur packages#
+    # aur packages
     for i in $(cat aurpackages); do
         if grep -q ':' <<<"$i"; then
             AURNAME=$(echo $i | grep -o '^[^:]*')
             AURFINALNAME=$(echo $i | grep -o '[^:]*$')
+            # buildpackage automatically places files in CACHEDIR
             buildpackage "$AURNAME" "$AURFINALNAME"
         else
             buildpackage "$i"
         fi
-        cd "$BUILDDIR" || exit
+        cd "$BUILDDIR"
     done
 fi
 
-cd "$BUILDDIR" || exit
+cd "$BUILDDIR"
+
+# build non-AUR packages
 for i in ./*; do
     if [ -e "$i/PKGBUILD" ]; then
         buildpackage "$i"
@@ -78,5 +84,14 @@ for i in ./*; do
     fi
 done
 
-# TODO move built packages into instantbuild directory
+cd "$CACHEDIR"
+echo "copying built packages to instantbuild directory"
+for i in ./*
+do
+    cp "$i"/*.pkg.tar.zst ~/instantbuild
+done
+
+
+
+echo "done building packages"
 

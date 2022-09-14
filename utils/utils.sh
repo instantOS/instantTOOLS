@@ -59,6 +59,7 @@ checkaur() {
 
 # buildpackage packagename targetname
 # targetname can be different, for example build yay-git as a package named yay
+# packagename can either be a folder with a PKGBUILD or an AUR package name
 buildpackage() {
     checkpkgs "$CACHEDIR/$1" && echo "valid pacman file for $1 already built" && return
 
