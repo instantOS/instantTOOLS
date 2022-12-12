@@ -52,6 +52,7 @@ checkpkgs() {
 
 checkaur() {
     git ls-remote --exit-code -h "https://aur.archlinux.org/$1.git" &>/dev/null || return 1
+    return 0
 }
 
 # buildpackage packagename targetname
