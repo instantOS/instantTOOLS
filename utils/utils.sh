@@ -51,10 +51,7 @@ checkpkgs() {
 }
 
 checkaur() {
-    if curl -s "https://aur.archlinux.org/packages/$1" | grep -iq 'Git clone URL'; then
-        return 0
-    fi
-    return 1
+    git ls-remote --exit-code -h "https://aur.archlinux.org/$1.git" &>/dev/null || return 1
 }
 
 # buildpackage packagename targetname
