@@ -91,7 +91,11 @@ do
     cp "$i"/*.pkg.tar.zst ~/instantbuild
 done
 
+cd ~/instantbuild || exit 1
+echo "building repo db"
 
+repo-add instant.db.tar.xz ./*.pkg.tar.*
+ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
 
 echo "done building packages"
 
