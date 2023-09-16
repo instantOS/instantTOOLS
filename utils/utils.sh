@@ -31,7 +31,7 @@ installbuilddeps() {
         vte3 \
         dbus-glib \
         appstream-glib \
-        archlinux-appstream-data-pamac \
+        archlinux-appstream-data \
         libpamac-nosnap \
         libindicator-gtk3 \
         libindicator-gtk2
