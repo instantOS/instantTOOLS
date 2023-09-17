@@ -7,26 +7,13 @@
 ## uploads files to repo                           ##
 #####################################################
 
-# clear old database
-
-rm instant.db.*
-rm instant.db
-rm instant.files.*
-rm instant.files
+set -eo pipefail
 
 cd ~/instantbuild || exit 1
 
-repo-add instant.db.tar.xz ./*.pkg.tar.*
-ls ./*.pkg.tar.zst / &>/dev/null && repo-add instant.db.tar.xz ./*.pkg.tar.zst
-
-date >date.txt
-
-[ -e index.html ] && rm index.html
-instantinstall apindex
-apindex .
+ibuild repoindex || exit 1
 
 USERNAME="$(imenu cli -i "username")"
-
 [ -z "$USERNAME" ] && exit
 
 # sync to the server
