@@ -91,7 +91,7 @@ do
     cp "$i"/*.pkg.tar.zst ~/instantbuild
 done
 
-
-
 echo "done building packages"
+
+ibuild repoindex || exit 1
 

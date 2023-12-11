@@ -24,7 +24,6 @@ installbuilddeps() {
         meson \
         check \
         libnotify \
-        paperbash \
         tk \
         vala \
         gobject-introspection \
@@ -35,6 +34,11 @@ installbuilddeps() {
         libpamac-nosnap \
         libindicator-gtk3 \
         libindicator-gtk2
+
+    if ! [ -e /usr/share/paperbash/import.sh ]; then
+        echo "please install paperbash before running this"
+        exit 1
+    fi
 
 }
 
