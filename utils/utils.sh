@@ -31,9 +31,10 @@ installbuilddeps() {
         dbus-glib \
         appstream-glib \
         archlinux-appstream-data \
-        libpamac-nosnap \
         libindicator-gtk3 \
         libindicator-gtk2
+
+    # TODO: check libpamac-nosnap version separately
 
     if ! [ -e /usr/share/paperbash/import.sh ]; then
         echo "please install paperbash before running this"
