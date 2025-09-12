@@ -34,7 +34,7 @@ installbuilddeps() {
         libindicator-gtk3 \
         libindicator-gtk2
 
-    # TODO: check libpamac-nosnap version separately
+    # TODO: check libpamac-aur version separately
 
     if ! [ -e /usr/share/paperbash/import.sh ]; then
         echo "please install paperbash before running this"
