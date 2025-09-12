@@ -14,7 +14,7 @@ pb git
 [ -e ~/.cache/instantos/repos ] || exit 1
 
 REPOCHOICE="$(
-    imenu -l <~/.cache/instantos/repos
+    imenu -l < ~/.cache/instantos/repos
 )"
 
 [ -z "$REPOCHOICE" ] && exit 1
