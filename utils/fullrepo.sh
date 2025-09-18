@@ -30,19 +30,6 @@ export CACHEDIR
 mkdir -p "$CACHEDIR" || echo 'existing build cache found'
 mkdir ~/instantbuild || echo 'existing build directory found'
 
-# detect architecture
-UNAME="$(uname -m)"
-if grep -q 'x8' <<<"$UNAME"; then
-    echo "detected 64 bit build"
-elif grep -q '^i' <<<"$UNAME"; then
-    echo "detected 32 bit build"
-    export ARCH32='32'
-else
-    echo 'architecture is not supported, support should be easy to add though,
-feel free to send a PR to instanttools'
-    exit
-fi
-
 cd
 mkdir stuff || echo "stuff existing" &>/dev/null
 cd stuff
