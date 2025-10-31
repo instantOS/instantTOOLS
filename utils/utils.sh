@@ -31,8 +31,7 @@ installbuilddeps() {
         dbus-glib \
         appstream-glib \
         archlinux-appstream-data \
-        libindicator-gtk3 \
-        libindicator-gtk2
+        libindicator
 
     if ! [ -e /usr/share/paperbash/import.sh ]; then
         echo "please install paperbash before running this"
