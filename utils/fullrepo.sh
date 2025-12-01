@@ -37,7 +37,7 @@ cd stuff
 echo "removing old pkgbuild repo"
 [ -e extra ] && rm -rf extra
 
-git clone --depth=1 https://github.com/instantos/extra.git
+git clone --depth=1 https://github.com/instantos/packages.git
 cd extra
 rm -rf .git
 

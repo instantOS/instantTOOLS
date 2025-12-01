@@ -11,7 +11,7 @@ if ! [ -e ~/workspace/extra ]; then
     echo "downloading extra"
     mkdir ~/workspace
     cd ~/workspace || exit 1
-    git clone --depth=1 https://github.com/instantos/extra
+    git clone --depth=1 https://github.com/instantos/packages
 fi
 
 source /usr/local/share/instanttools/utils.sh || exit 1
